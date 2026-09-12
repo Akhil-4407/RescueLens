@@ -1,0 +1,6 @@
+{
+  "name": "Rescue Eye",
+  "description": "Search-and-rescue computer-vision workstation for on-device drone imagery analysis and human detection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
