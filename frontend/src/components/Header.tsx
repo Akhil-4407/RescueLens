@@ -155,7 +155,7 @@ export const Header: React.FC = () => {
                 ON-DEVICE
               </span>
               <span className="text-[9px] px-1 py-0.5 rounded bg-white/10 text-[#d8d8d8] font-mono uppercase">
-                {activeService.name === 'MockInferenceService' ? 'DEMO INFERENCE' : 'TFLITE DROP-IN'}
+                {activeService.name === 'MockInferenceService' ? 'DEMO INFERENCE' : 'TFLITE ON-DEVICE'}
               </span>
             </div>
 

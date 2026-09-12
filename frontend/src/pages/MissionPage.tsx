@@ -67,9 +67,9 @@ export const MissionPage: React.FC = () => {
               <span className="text-[11px] font-mono tracking-widest text-[#9a9a9a] uppercase">
                 EMERGENCY RESPONSE DIRECTIVE
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-amber-950/60 text-amber-200 border border-amber-500/40">
-                <AlertTriangle className="w-3 h-3 text-amber-400" />
-                ON-DEVICE DEMO INFERENCE
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/60 text-emerald-200 border border-emerald-500/40">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                ON-DEVICE TFLITE PRODUCTION
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase font-sans">

@@ -35,6 +35,8 @@ export async function detectSingleImage(file: File) {
       };
     }),
     inference_time_ms: data.inference_time_ms,
+    is_demo: data.is_demo ?? false,
+    execution_adapter: data.execution_adapter || 'TFLite On-Device Production',
   };
 }
 
@@ -71,6 +73,8 @@ export async function processBatchImages(files: File[]) {
       };
     }),
     inference_time_ms: data.inference_time_ms,
+    is_demo: data.is_demo ?? false,
+    execution_adapter: data.execution_adapter || 'TFLite On-Device Production',
   };
 }
 

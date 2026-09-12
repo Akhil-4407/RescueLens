@@ -56,7 +56,7 @@ const DEFAULT_METADATA: MissionMetadata = {
   quantization: 'INT8',
   cloudVision: 'DISABLED',
   openAiVision: 'DISABLED',
-  isDemoMode: true,
+  isDemoMode: false,
 };
 
 const MissionContext = createContext<MissionContextType | null>(null);
@@ -69,7 +69,7 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isProcessingQueue, setIsProcessingQueue] = useState(false);
   const [processingProgress, setProcessingProgress] = useState(0);
   const [currentProcessingIndex, setCurrentProcessingIndex] = useState(0);
-  const [activeService, setActiveService] = useState<InferenceService>(mockService);
+  const [activeService, setActiveService] = useState<InferenceService>(tfliteService);
   const stopRequestedRef = useRef(false);
 
   // Selected image computed property
