@@ -1,6 +1,7 @@
 """RescueLens - Edge AI Aerial Detection System.
 
 Production-ready FastAPI backend for aerial object detection using YOLO Tiny TFLite.
+Strictly on-device inference using tf.lite.Interpreter with no external cloud dependencies.
 """
 
 import os
@@ -25,17 +26,21 @@ logger = logging.getLogger("RescueLensBackend")
 
 # TFLite Interpreter Import with fallback
 try:
-    from tensorflow.lite import Interpreter
-except ImportError:
+    import tensorflow as tf
+    Interpreter = tf.lite.Interpreter
+except (ImportError, AttributeError):
     try:
         from tflite_runtime.interpreter import Interpreter
     except ImportError:
-        Interpreter = None
+        try:
+            from tensorflow.lite.python.interpreter import Interpreter
+        except ImportError:
+            Interpreter = None
 
 # Model Configuration
 MODEL_PATH = os.getenv("MODEL_PATH", "yolo_tiny_rescue.tflite")
 TARGET_RESOLUTION = (416, 416)
-CONFIDENCE_THRESHOLD = 0.80  # Strict project accuracy constraint
+CONFIDENCE_THRESHOLD = 0.80  # Strict project accuracy constraint (>80%)
 IOU_THRESHOLD = 0.45
 
 
@@ -215,9 +220,9 @@ def non_maximum_suppression(
 
 class TFLiteYOLOEngine:
     """
-    Local YOLO inference engine using tensorflow.lite.Interpreter.
+    Production-ready local YOLO Tiny inference engine using tensorflow.lite.Interpreter.
     Allocates tensors once at application startup to eliminate per-request latency.
-    Supports graceful fallback and mock initialization for placeholder/dummy models.
+    Runs strictly on-device without cloud or external endpoints.
     """
 
     def __init__(self, model_path: str = MODEL_PATH):
@@ -225,69 +230,56 @@ class TFLiteYOLOEngine:
         self.interpreter: Optional[Any] = None
         self.input_details: Optional[List[Dict[str, Any]]] = None
         self.output_details: Optional[List[Dict[str, Any]]] = None
-        self.is_mock: bool = False
         self._load_and_allocate()
 
-    def _load_and_allocate(self):
-        resolved_path = self._resolve_model_path(self.model_path)
-        logger.info(f"Loading TFLite model from: {resolved_path}")
-
-        if not os.path.exists(resolved_path):
-            logger.warning(f"Model file not found at '{resolved_path}'. Initializing in mock mode.")
-            self.is_mock = True
-            return
-
-        # Check if file has valid TFLite header
-        try:
-            with open(resolved_path, "rb") as f:
-                header = f.read(8)
-            is_valid_tflite_header = len(header) >= 8 and header[4:8] == b"TFL3"
-        except Exception as e:
-            logger.warning(f"Error inspecting model file header: {e}")
-            is_valid_tflite_header = False
-
-        if Interpreter is not None and is_valid_tflite_header:
-            try:
-                self.interpreter = Interpreter(model_path=resolved_path)
-                # Allocate tensors during startup
-                self.interpreter.allocate_tensors()
-                self.input_details = self.interpreter.get_input_details()
-                self.output_details = self.interpreter.get_output_details()
-                self.is_mock = False
-                logger.info("Successfully loaded TFLite model and allocated tensors.")
-                logger.info(f"Input details: {self.input_details}")
-                logger.info(f"Output details: {self.output_details}")
-                return
-            except Exception as exc:
-                logger.warning(
-                    f"Failed to initialize real TFLite interpreter with '{resolved_path}' ({exc}). "
-                    "Running in mock inference mode while awaiting real model weights."
-                )
-
-        self.is_mock = True
-        logger.info("TFLite engine initialized in mock mode for dummy placeholder model.")
-
-    @staticmethod
-    def _resolve_model_path(path: str) -> str:
-        if os.path.exists(path):
+    def _resolve_model_path(self, path: str) -> str:
+        if os.path.isabs(path) and os.path.exists(path):
             return path
         candidates = [
+            path,
             os.path.join(os.getcwd(), path),
             os.path.join(os.path.dirname(__file__), "..", "..", path),
-            os.path.join("/tmp/RescueLens", path),
+            os.path.join(os.path.dirname(__file__), path),
+            os.path.join(os.path.dirname(__file__), "..", "..", "yolo_tiny_rescue.tflite"),
+            os.path.join(os.getcwd(), "backend", "yolo_tiny_rescue.tflite"),
         ]
         for candidate in candidates:
             if os.path.exists(candidate):
                 return os.path.abspath(candidate)
-        return path
+        return os.path.abspath(path)
+
+    def _load_and_allocate(self):
+        resolved_path = self._resolve_model_path(self.model_path)
+        logger.info(f"Loading production TFLite YOLO model from: {resolved_path}")
+
+        if not os.path.exists(resolved_path):
+            raise FileNotFoundError(
+                f"TFLite YOLO-tiny model file not found at: '{resolved_path}'"
+            )
+
+        if Interpreter is None:
+            raise RuntimeError(
+                "Neither tensorflow.lite nor tflite_runtime Interpreter is available."
+            )
+
+        try:
+            self.interpreter = Interpreter(model_path=resolved_path)
+            self.interpreter.allocate_tensors()
+            self.input_details = self.interpreter.get_input_details()
+            self.output_details = self.interpreter.get_output_details()
+            logger.info("Successfully loaded TFLite YOLO model and allocated tensors.")
+            logger.info(f"Input details: {self.input_details}")
+            logger.info(f"Output details: {self.output_details}")
+        except Exception as exc:
+            logger.error(f"Failed to initialize TFLite interpreter with '{resolved_path}': {exc}")
+            raise RuntimeError(f"TFLite interpreter initialization failed: {exc}") from exc
 
     def infer(self, input_tensor: np.ndarray, metadata: Dict[str, Any]) -> List[Detection]:
         """
-        Runs model inference on the pre-processed input tensor and returns filtered detections.
+        Runs on-device model inference on the pre-processed input tensor and returns filtered detections.
         """
-        if self.is_mock:
-            # Mock mode: returns empty list by default (or simulated detection if image contains test pattern)
-            return []
+        if self.interpreter is None or self.input_details is None or self.output_details is None:
+            raise RuntimeError("TFLite interpreter is not initialized.")
 
         # Handle tensor shape mismatch (NHWC vs NCHW)
         target_shape = self.input_details[0]["shape"]
@@ -296,10 +288,8 @@ class TFLiteYOLOEngine:
         tensor_to_feed = input_tensor
         if len(target_shape) == 4:
             if target_shape[1] == 3 and input_tensor.shape[-1] == 3:
-                # Transpose from NHWC to NCHW
                 tensor_to_feed = np.transpose(input_tensor, (0, 3, 1, 2))
             elif target_shape[-1] == 3 and input_tensor.shape[1] == 3:
-                # Transpose from NCHW to NHWC
                 tensor_to_feed = np.transpose(input_tensor, (0, 2, 3, 1))
 
         # Handle quantization if model expects uint8 or int8
@@ -310,7 +300,7 @@ class TFLiteYOLOEngine:
         else:
             tensor_to_feed = tensor_to_feed.astype(dtype)
 
-        # Set tensor, invoke, and retrieve output
+        # Set tensor, invoke on-device interpreter, and retrieve output
         self.interpreter.set_tensor(self.input_details[0]["index"], tensor_to_feed)
         self.interpreter.invoke()
         output_data = self.interpreter.get_tensor(self.output_details[0]["index"])
@@ -326,9 +316,13 @@ class TFLiteYOLOEngine:
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Parses raw YOLO Tiny output into coordinates in original image space.
-        Expected formats: (1, N, 6) or (1, 6, N) or (N, 6) where 6 is [x, y, w, h, obj_conf, class_conf].
+        Expected formats: (1, N, 6) or (1, 6, N) or (N, 6) or (1, N, 5) or (1, 5, N)
+        where columns/rows represent [cx, cy, w, h, obj_conf, class_conf].
         """
         data = np.squeeze(output_data)
+        if data.ndim == 1 and len(data) in (5, 6):
+            data = np.expand_dims(data, axis=0)
+
         if data.ndim == 2 and data.shape[0] < data.shape[1] and data.shape[0] in (5, 6):
             data = data.T
 
@@ -340,8 +334,9 @@ class TFLiteYOLOEngine:
         pad_h = metadata["pad_h"]
         orig_w = metadata["orig_w"]
         orig_h = metadata["orig_h"]
+        target_w = metadata.get("target_w", 416)
+        target_h = metadata.get("target_h", 416)
 
-        # If data is in center-x, center-y, width, height format
         cx = data[:, 0]
         cy = data[:, 1]
         w = data[:, 2]
@@ -350,14 +345,25 @@ class TFLiteYOLOEngine:
         if data.shape[1] == 5:
             confidences = data[:, 4]
         else:
-            # Multiply objectness by class score
             confidences = data[:, 4] * np.max(data[:, 5:], axis=1)
 
+        # Handle both normalized [0..1] coordinates and pixel [0..416] coordinates
+        if len(cx) > 0 and np.max(cx) <= 1.0 and np.max(cy) <= 1.0 and np.max(w) <= 1.0 and np.max(h) <= 1.0:
+            cx_px = cx * target_w
+            cy_px = cy * target_h
+            w_px = w * target_w
+            h_px = h * target_h
+        else:
+            cx_px = cx
+            cy_px = cy
+            w_px = w
+            h_px = h
+
         # Convert [cx, cy, w, h] to [x1, y1, x2, y2] in letterbox space
-        x1 = cx - (w / 2.0)
-        y1 = cy - (h / 2.0)
-        x2 = cx + (w / 2.0)
-        y2 = cy + (h / 2.0)
+        x1 = cx_px - (w_px / 2.0)
+        y1 = cy_px - (h_px / 2.0)
+        x2 = cx_px + (w_px / 2.0)
+        y2 = cy_px + (h_px / 2.0)
 
         # Rescale back to original image space by removing letterbox padding
         orig_x1 = np.clip((x1 - pad_w) / scale, 0, orig_w)
@@ -380,9 +386,9 @@ async def lifespan(app: FastAPI):
     at application startup, preventing reloading latency on subsequent requests.
     """
     global engine
-    logger.info("Initializing RescueLens inference engine on startup...")
+    logger.info("Initializing RescueLens on-device TFLite YOLO-tiny inference engine...")
     engine = TFLiteYOLOEngine(model_path=MODEL_PATH)
-    logger.info("RescueLens inference engine successfully initialized.")
+    logger.info("RescueLens inference engine successfully initialized and ready.")
     yield
     logger.info("Shutting down RescueLens backend.")
 
@@ -390,12 +396,12 @@ async def lifespan(app: FastAPI):
 # Initialize FastAPI application
 app = FastAPI(
     title="RescueLens - Edge AI Aerial Detection System",
-    description="Edge AI aerial detection backend running YOLO Tiny inference via TFLite.",
+    description="Edge AI aerial detection backend running on-device YOLO Tiny inference via TFLite.",
     version="1.0.0",
     lifespan=lifespan,
 )
 
-# Enable CORS middleware for all origins
+# Enable CORS middleware for all local development origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -408,14 +414,12 @@ app.add_middleware(
 )
 
 
-
 @app.get("/health", tags=["Monitoring"])
 async def health_check():
     """Health check endpoint to verify backend status and model allocation."""
     return {
         "status": "online",
-        "engine_ready": engine is not None,
-        "is_mock": engine.is_mock if engine else None,
+        "engine_ready": engine is not None and engine.interpreter is not None,
         "model_path": MODEL_PATH,
         "confidence_threshold": CONFIDENCE_THRESHOLD,
     }
@@ -430,7 +434,7 @@ async def health_check():
 )
 async def detect(file: UploadFile = File(...)):
     """
-    Accepts one image, letterboxes to 416x416, runs YOLO inference,
+    Accepts one image, letterboxes to 416x416, runs YOLO inference on-device,
     applies strict confidence filtering (>0.80) & NMS, and returns detection results.
     """
     if engine is None:
@@ -439,7 +443,6 @@ async def detect(file: UploadFile = File(...)):
             detail="Inference engine is not initialized."
         )
 
-    # Read uploaded image bytes asynchronously
     image_bytes = await file.read()
     if not image_bytes:
         raise HTTPException(
@@ -462,7 +465,6 @@ async def detect(file: UploadFile = File(...)):
             detail="Error occurred during image pre-processing."
         )
 
-    # Run inference and post-processing
     try:
         detections = engine.infer(input_tensor, metadata)
     except Exception as exc:
@@ -490,7 +492,7 @@ async def detect(file: UploadFile = File(...)):
 )
 async def batch_process(files: List[UploadFile] = File(...)):
     """
-    Accepts up to 100 images, processes each through the YOLO pipeline,
+    Accepts up to 100 images, processes each through the YOLO pipeline locally,
     and returns aggregated detections, total count, and total inference time.
     """
     if engine is None:
