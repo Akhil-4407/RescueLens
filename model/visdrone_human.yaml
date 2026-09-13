@@ -1,0 +1,10 @@
+# RescueLens - Edge AI Aerial Detection System
+# VisDrone2019 Human Detection Dataset Configuration [B-03 RESCUE EYE]
+
+path: ~/Documents/VisDrone2019-DET-train  # Dataset root directory
+train: images                            # Train images
+val: images                              # Validation images
+
+# Single target rescue class
+names:
+  0: human
