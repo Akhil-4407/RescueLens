@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { DroneImage, Detection } from '../types';
 import { ZoomIn, ZoomOut, RotateCcw, Eye, Crosshair, AlertTriangle } from 'lucide-react';
 
@@ -16,7 +16,36 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
   const [zoom, setZoom] = useState(1);
   const [showBoxes, setShowBoxes] = useState(true);
   const [showCrosshairs, setShowCrosshairs] = useState(true);
+  const [naturalDimensions, setNaturalDimensions] = useState<{ width: number; height: number }>({
+    width: 1920,
+    height: 1080,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Synchronize natural image dimensions whenever active image URL changes
+  useEffect(() => {
+    if (!image?.url) return;
+
+    const syncDimensions = (w: number, h: number) => {
+      if (w > 0 && h > 0) {
+        setNaturalDimensions((prev) => {
+          if (prev.width === w && prev.height === h) return prev;
+          return { width: w, height: h };
+        });
+      }
+    };
+
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      syncDimensions(imgRef.current.naturalWidth, imgRef.current.naturalHeight);
+    }
+
+    const preloader = new Image();
+    preloader.onload = () => {
+      syncDimensions(preloader.naturalWidth, preloader.naturalHeight);
+    };
+    preloader.src = image.url;
+  }, [image?.url]);
 
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.25, 2.5));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.25, 0.75));
@@ -134,14 +163,21 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
         className="relative flex-1 w-full bg-[#040404] overflow-auto flex items-center justify-center p-3 sm:p-5 select-none"
       >
         <div
-          className="relative max-w-full transition-transform duration-200 ease-out origin-center"
+          className="relative inline-block max-w-full transition-transform duration-200 ease-out origin-center"
           style={{ transform: `scale(${zoom})` }}
         >
           {/* Drone Image Render */}
           <img
+            ref={imgRef}
             id="active-drone-image"
             src={image.url}
             alt={`Drone Frame ${image.frameNumber}`}
+            onLoad={(e) => {
+              const el = e.currentTarget;
+              if (el.naturalWidth && el.naturalHeight) {
+                setNaturalDimensions({ width: el.naturalWidth, height: el.naturalHeight });
+              }
+            }}
             className="w-full max-w-[1020px] h-auto object-contain rounded-lg border border-white/10 shadow-2xl block pointer-events-none"
           />
 
@@ -151,10 +187,15 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
               id="bounding-box-overlay-layer"
               className="absolute inset-0 pointer-events-auto"
             >
-              {detections.map((det) => {
-                const isSelected = selectedDetectionId === det.id;
-                const isCritical = det.priority === 'CRITICAL';
-                const isHigh = det.priority === 'HIGH';
+              {detections.map((det, index) => {
+                const detId = det.id || `det-${image.frameNumber || 1}-${index + 1}`;
+                const isSelected = selectedDetectionId === detId || selectedDetectionId === det.id;
+                const confidence = typeof det.confidence === 'number' ? det.confidence : 0.9;
+                const priority =
+                  det.priority ||
+                  (confidence >= 0.92 ? 'CRITICAL' : confidence >= 0.85 ? 'HIGH' : 'MEDIUM');
+                const isCritical = priority === 'CRITICAL';
+                const isHigh = priority === 'HIGH';
 
                 // Semantic styling for search & rescue bounding boxes: elegant, high contrast, clear
                 const borderColor = isCritical
@@ -169,19 +210,101 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
                   ? 'bg-amber-950/95 text-amber-100 border-amber-500/80 shadow-amber-950/50'
                   : 'bg-emerald-950/95 text-emerald-100 border-emerald-500/80 shadow-emerald-950/50';
 
+                // Robust coordinate parsing: maps absolute pixel coordinates against naturalDimensions
+                const imgW =
+                  naturalDimensions.width > 0
+                    ? naturalDimensions.width
+                    : imgRef.current?.naturalWidth || 1920;
+                const imgH =
+                  naturalDimensions.height > 0
+                    ? naturalDimensions.height
+                    : imgRef.current?.naturalHeight || 1080;
+
+                const rawBox = det.box || det.bbox;
+                let xmin = 0;
+                let ymin = 0;
+                let xmax = 0;
+                let ymax = 0;
+                let isAbsolute = false;
+
+                if (rawBox && Array.isArray(rawBox) && rawBox.length >= 4) {
+                  const b0 = Number(rawBox[0]) || 0;
+                  const b1 = Number(rawBox[1]) || 0;
+                  const b2 = Number(rawBox[2]) || 0;
+                  const b3 = Number(rawBox[3]) || 0;
+                  xmin = Math.min(b0, b2);
+                  ymin = Math.min(b1, b3);
+                  xmax = Math.max(b0, b2);
+                  ymax = Math.max(b1, b3);
+                  isAbsolute = xmax > 1.0 || ymax > 1.0;
+                } else if ((det as any).xmin !== undefined && (det as any).xmax !== undefined) {
+                  const b0 = Number((det as any).xmin) || 0;
+                  const b1 = Number((det as any).ymin) || 0;
+                  const b2 = Number((det as any).xmax) || 0;
+                  const b3 = Number((det as any).ymax) || 0;
+                  xmin = Math.min(b0, b2);
+                  ymin = Math.min(b1, b3);
+                  xmax = Math.max(b0, b2);
+                  ymax = Math.max(b1, b3);
+                  isAbsolute = xmax > 1.0 || ymax > 1.0;
+                } else {
+                  const dx = Number(det.x) || 0;
+                  const dy = Number(det.y) || 0;
+                  const dw = Number(det.width) || 0;
+                  const dh = Number(det.height) || 0;
+                  if (dx > 1.0 || dy > 1.0 || dw > 1.0 || dh > 1.0) {
+                    xmin = dx;
+                    ymin = dy;
+                    xmax = dx + dw;
+                    ymax = dy + dh;
+                    isAbsolute = true;
+                  } else {
+                    xmin = dx;
+                    ymin = dy;
+                    xmax = dx + dw;
+                    ymax = dy + dh;
+                    isAbsolute = false;
+                  }
+                }
+
+                let leftPct: number;
+                let topPct: number;
+                let widthPct: number;
+                let heightPct: number;
+
+                if (isAbsolute) {
+                  leftPct = (xmin / imgW) * 100;
+                  topPct = (ymin / imgH) * 100;
+                  widthPct = (Math.max(1, xmax - xmin) / imgW) * 100;
+                  heightPct = (Math.max(1, ymax - ymin) / imgH) * 100;
+                } else {
+                  leftPct = xmin * 100;
+                  topPct = ymin * 100;
+                  widthPct = Math.max(0.1, xmax - xmin) * 100;
+                  heightPct = Math.max(0.1, ymax - ymin) * 100;
+                }
+
+                // Clamp percentages safely within visible bounds
+                leftPct = Math.max(0, Math.min(100, leftPct));
+                topPct = Math.max(0, Math.min(100, topPct));
+                widthPct = Math.max(0.5, Math.min(100 - leftPct, widthPct));
+                heightPct = Math.max(0.5, Math.min(100 - topPct, heightPct));
+
+                const isNearTop = topPct < 5;
+
                 return (
                   <div
-                    key={det.id}
-                    id={`bounding-box-${det.id}`}
+                    key={detId}
+                    id={`bounding-box-${detId}`}
                     onClick={() => onSelectDetection && onSelectDetection(det)}
                     className={`absolute cursor-pointer transition-all duration-150 ${
                       isSelected ? 'ring-2 ring-white ring-offset-2 ring-offset-black z-30' : 'z-20'
                     }`}
                     style={{
-                      left: `${det.x * 100}%`,
-                      top: `${det.y * 100}%`,
-                      width: `${det.width * 100}%`,
-                      height: `${det.height * 100}%`,
+                      left: `${leftPct}%`,
+                      top: `${topPct}%`,
+                      width: `${widthPct}%`,
+                      height: `${heightPct}%`,
                     }}
                   >
                     {/* Bounding Box Border with precision technical styling */}
@@ -199,14 +322,18 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
 
                       {/* Top Unified Identification Badge: Elegant, readable, non-cluttering */}
                       <div
-                        className={`absolute -top-6 left-0 flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold border ${badgeBg} shadow-lg whitespace-nowrap`}
+                        className={`absolute ${
+                          isNearTop ? 'top-full mt-1' : '-top-6'
+                        } left-0 flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold border ${badgeBg} shadow-lg whitespace-nowrap z-30`}
                       >
-                        <span className="uppercase text-white font-bold">HUMAN</span>
+                        <span className="uppercase text-white font-bold">
+                          {det.label || det.class || 'HUMAN'}
+                        </span>
                         <span className="text-white/80 font-mono">
-                          {Math.round(det.confidence * 100)}%
+                          {Math.round(confidence * 100)}%
                         </span>
                         <span className="opacity-40">•</span>
-                        <span className="font-bold">{det.priority}</span>
+                        <span className="font-bold">{priority}</span>
                       </div>
                     </div>
                   </div>

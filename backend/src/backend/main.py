@@ -42,15 +42,29 @@ except (ImportError, AttributeError):
 MODEL_PATH = os.getenv("MODEL_PATH", "yolo_tiny_rescue.tflite")
 TILE_SIZE = 416
 OVERLAP = 0.20  # 20% overlap stride to ensure humans on tile boundaries are preserved
-RAW_CONF_THRESHOLD = 0.25  # Dynamic threshold tuning: lower initial cutoff for small targets
-FINAL_CONF_THRESHOLD = 0.80  # Strict project accuracy constraint (>80%)
+RAW_CONF_THRESHOLD = float(os.getenv("RAW_CONF_THRESHOLD", "0.25"))  # Dynamic threshold tuning: lower initial cutoff for small targets
+FINAL_CONF_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.30"))  # Adaptable threshold for distant aerial targets (0.25 - 0.35)
 GLOBAL_NMS_IOU_THRESHOLD = 0.40  # Global NMS overlap threshold
 
 
 class Detection(BaseModel):
+    label: str = Field(
+        default="human",
+        description="Target classification label (strictly 'human')"
+    )
+    class_name: str = Field(
+        default="human",
+        alias="class",
+        description="Object class name"
+    )
     box: List[float] = Field(
         ...,
-        description="Bounding box coordinates [x1, y1, x2, y2] in original image space",
+        description="Bounding box coordinates [xmin, ymin, xmax, ymax] in original image space",
+        example=[34.5, 56.2, 140.8, 192.4]
+    )
+    bbox: List[float] = Field(
+        ...,
+        description="Alias bounding box coordinates [xmin, ymin, xmax, ymax]",
         example=[34.5, 56.2, 140.8, 192.4]
     )
     confidence: float = Field(
@@ -58,6 +72,9 @@ class Detection(BaseModel):
         description="Confidence score exceeding 0.80 threshold",
         example=0.92
     )
+
+    class Config:
+        populate_by_name = True
 
 
 class DetectionResponse(BaseModel):
@@ -205,15 +222,19 @@ def apply_global_nms(
     for idx in keep_indices:
         conf = float(confidences[idx])
         if conf >= final_conf_threshold:
+            b = [
+                round(float(boxes[idx][0]), 2),
+                round(float(boxes[idx][1]), 2),
+                round(float(boxes[idx][2]), 2),
+                round(float(boxes[idx][3]), 2),
+            ]
             final_detections.append(
                 Detection(
-                    box=[
-                        round(float(boxes[idx][0]), 2),
-                        round(float(boxes[idx][1]), 2),
-                        round(float(boxes[idx][2]), 2),
-                        round(float(boxes[idx][3]), 2),
-                    ],
+                    label="human",
+                    class_name="human",
                     confidence=round(conf, 4),
+                    box=b,
+                    bbox=b,
                 )
             )
 
@@ -397,15 +418,24 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Enable CORS middleware for all local development origins
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+# Enable CORS middleware for all frontend and local development origins
+CORS_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-],
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0:3000",
+    "http://0.0.0.0:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CORS_ORIGINS,
+    allow_origin_regex=r"^https?://.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

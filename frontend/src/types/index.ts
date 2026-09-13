@@ -10,12 +10,15 @@ export type FrameStatus =
 
 export interface Detection {
   id: string;
+  label?: string;
   class: 'human';
   confidence: number; // 0.0 - 1.0 (e.g. 0.94)
   x: number; // normalized 0 - 1
   y: number; // normalized 0 - 1
   width: number; // normalized 0 - 1
   height: number; // normalized 0 - 1
+  box?: number[];
+  bbox?: number[];
   priority: Priority;
   simulated: boolean; // explicitly marked per requirements
   hazardNotes?: string;
