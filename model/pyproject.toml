@@ -1,0 +1,22 @@
+[project]
+name = "model"
+version = "0.1.0"
+description = "RescueLens Drone Human Detection Model Pipeline [B-03 RESCUE EYE]"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "torch>=2.14.0",
+    "torchvision>=0.29.0",
+    "ultralytics>=8.4.0",
+    "mlx>=0.32.0",
+    "tensorflow>=2.20.0",
+    "opencv-python>=4.10.0",
+    "pyyaml>=6.0.2",
+    "onnx>=1.20.0",
+    "onnxslim>=0.1.90",
+    "onnx2tf>=1.28.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

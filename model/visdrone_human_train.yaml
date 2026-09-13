@@ -1,0 +1,7 @@
+# Curated High-Density Human VisDrone Dataset [B-03 RESCUE EYE]
+path: /Users/test/Documents/VisDrone2019-DET-train
+train: /Users/test/Documents/VisDrone2019-DET-train/train_curated.txt
+val: /Users/test/Documents/VisDrone2019-DET-train/val_curated.txt
+
+names:
+  0: human
