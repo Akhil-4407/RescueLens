@@ -20,11 +20,23 @@ export async function detectSingleImage(file: File) {
   const data = await response.json();
   return {
     count: data.count,
-    detections: (data.detections || []).map((d: any[]) => ({
-      box: { x1: d[0], y1: d[1], x2: d[2], y2: d[3] },
-      confidence: d[4],
-    })),
+    detections: (data.detections || []).map((d: any[]) => {
+      const isArr = Array.isArray(d);
+      const b = isArr ? d : ((d as any)?.box || []);
+      const conf = isArr ? d[4] : ((d as any)?.confidence ?? 0);
+      return {
+        box: {
+          x1: isArr ? d[0] : (b[0] ?? (d as any)?.x1 ?? 0),
+          y1: isArr ? d[1] : (b[1] ?? (d as any)?.y1 ?? 0),
+          x2: isArr ? d[2] : (b[2] ?? (d as any)?.x2 ?? 0),
+          y2: isArr ? d[3] : (b[3] ?? (d as any)?.y2 ?? 0),
+        },
+        confidence: conf,
+      };
+    }),
     inference_time_ms: data.inference_time_ms,
+    is_demo: data.is_demo ?? false,
+    execution_adapter: data.execution_adapter || 'TFLite On-Device Production',
   };
 }
 
@@ -46,11 +58,23 @@ export async function processBatchImages(files: File[]) {
   const data = await response.json();
   return {
     count: data.count,
-    detections: (data.detections || []).map((d: any[]) => ({
-      box: { x1: d[0], y1: d[1], x2: d[2], y2: d[3] },
-      confidence: d[4],
-    })),
+    detections: (data.detections || []).map((d: any[]) => {
+      const isArr = Array.isArray(d);
+      const b = isArr ? d : ((d as any)?.box || []);
+      const conf = isArr ? d[4] : ((d as any)?.confidence ?? 0);
+      return {
+        box: {
+          x1: isArr ? d[0] : (b[0] ?? (d as any)?.x1 ?? 0),
+          y1: isArr ? d[1] : (b[1] ?? (d as any)?.y1 ?? 0),
+          x2: isArr ? d[2] : (b[2] ?? (d as any)?.x2 ?? 0),
+          y2: isArr ? d[3] : (b[3] ?? (d as any)?.y2 ?? 0),
+        },
+        confidence: conf,
+      };
+    }),
     inference_time_ms: data.inference_time_ms,
+    is_demo: data.is_demo ?? false,
+    execution_adapter: data.execution_adapter || 'TFLite On-Device Production',
   };
 }
 

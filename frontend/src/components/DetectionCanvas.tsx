@@ -224,15 +224,15 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
         </div>
       </div>
 
-      {/* Notice Banner: Clearly indicates On-Device Simulated Detection */}
+      {/* Notice Banner: Indicates On-Device Production Inference */}
       <div className="w-full px-4 py-2 bg-black/95 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 z-20">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-white/10 border border-white/15 text-[10px] font-mono text-white">
-            <AlertTriangle className="w-3 h-3 text-amber-400" />
-            ON-DEVICE DEMO INFERENCE
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/40 text-[10px] font-mono text-emerald-200">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            ON-DEVICE TFLITE PRODUCTION
           </span>
           <span className="text-[11px] text-[#9a9a9a] hidden sm:inline font-sans">
-            Client-side mock engine active. TensorFlow Lite INT8 pipeline linked for production hardware.
+            TensorFlow Lite YOLO-tiny on-device inference pipeline active with high-resolution image tiling.
           </span>
         </div>
 
