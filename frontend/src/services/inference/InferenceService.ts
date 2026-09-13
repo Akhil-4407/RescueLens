@@ -20,18 +20,25 @@ export async function detectSingleImage(file: File) {
   const data = await response.json();
   return {
     count: data.count,
-    detections: (data.detections || []).map((d: any[]) => {
+    detections: (data.detections || []).map((d: any) => {
       const isArr = Array.isArray(d);
-      const b = isArr ? d : ((d as any)?.box || []);
-      const conf = isArr ? d[4] : ((d as any)?.confidence ?? 0);
+      const b = isArr ? d : (d.box || d.bbox || []);
+      const conf = isArr ? d[4] : (d.confidence ?? 0);
+      const label = isArr ? 'human' : (d.label || d.class || 'human');
+      const x1 = isArr ? d[0] : (Array.isArray(b) ? b[0] : (b.x1 ?? b.xmin ?? d.x1 ?? d.xmin ?? 0));
+      const y1 = isArr ? d[1] : (Array.isArray(b) ? b[1] : (b.y1 ?? b.ymin ?? d.y1 ?? d.ymin ?? 0));
+      const x2 = isArr ? d[2] : (Array.isArray(b) ? b[2] : (b.x2 ?? b.xmax ?? d.x2 ?? d.xmax ?? 0));
+      const y2 = isArr ? d[3] : (Array.isArray(b) ? b[3] : (b.y2 ?? b.ymax ?? d.y2 ?? d.ymax ?? 0));
       return {
-        box: {
-          x1: isArr ? d[0] : (b[0] ?? (d as any)?.x1 ?? 0),
-          y1: isArr ? d[1] : (b[1] ?? (d as any)?.y1 ?? 0),
-          x2: isArr ? d[2] : (b[2] ?? (d as any)?.x2 ?? 0),
-          y2: isArr ? d[3] : (b[3] ?? (d as any)?.y2 ?? 0),
-        },
+        label,
+        class: label,
         confidence: conf,
+        box: [x1, y1, x2, y2],
+        bbox: [x1, y1, x2, y2],
+        xmin: x1,
+        ymin: y1,
+        xmax: x2,
+        ymax: y2,
       };
     }),
     inference_time_ms: data.inference_time_ms,
@@ -58,18 +65,25 @@ export async function processBatchImages(files: File[]) {
   const data = await response.json();
   return {
     count: data.count,
-    detections: (data.detections || []).map((d: any[]) => {
+    detections: (data.detections || []).map((d: any) => {
       const isArr = Array.isArray(d);
-      const b = isArr ? d : ((d as any)?.box || []);
-      const conf = isArr ? d[4] : ((d as any)?.confidence ?? 0);
+      const b = isArr ? d : (d.box || d.bbox || []);
+      const conf = isArr ? d[4] : (d.confidence ?? 0);
+      const label = isArr ? 'human' : (d.label || d.class || 'human');
+      const x1 = isArr ? d[0] : (Array.isArray(b) ? b[0] : (b.x1 ?? b.xmin ?? d.x1 ?? d.xmin ?? 0));
+      const y1 = isArr ? d[1] : (Array.isArray(b) ? b[1] : (b.y1 ?? b.ymin ?? d.y1 ?? d.ymin ?? 0));
+      const x2 = isArr ? d[2] : (Array.isArray(b) ? b[2] : (b.x2 ?? b.xmax ?? d.x2 ?? d.xmax ?? 0));
+      const y2 = isArr ? d[3] : (Array.isArray(b) ? b[3] : (b.y2 ?? b.ymax ?? d.y2 ?? d.ymax ?? 0));
       return {
-        box: {
-          x1: isArr ? d[0] : (b[0] ?? (d as any)?.x1 ?? 0),
-          y1: isArr ? d[1] : (b[1] ?? (d as any)?.y1 ?? 0),
-          x2: isArr ? d[2] : (b[2] ?? (d as any)?.x2 ?? 0),
-          y2: isArr ? d[3] : (b[3] ?? (d as any)?.y2 ?? 0),
-        },
+        label,
+        class: label,
         confidence: conf,
+        box: [x1, y1, x2, y2],
+        bbox: [x1, y1, x2, y2],
+        xmin: x1,
+        ymin: y1,
+        xmax: x2,
+        ymax: y2,
       };
     }),
     inference_time_ms: data.inference_time_ms,

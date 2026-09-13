@@ -16,6 +16,10 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
   const [zoom, setZoom] = useState(1);
   const [showBoxes, setShowBoxes] = useState(true);
   const [showCrosshairs, setShowCrosshairs] = useState(true);
+  const [naturalDimensions, setNaturalDimensions] = useState<{ width: number; height: number }>({
+    width: 1920,
+    height: 1080,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.25, 2.5));
@@ -142,6 +146,12 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
             id="active-drone-image"
             src={image.url}
             alt={`Drone Frame ${image.frameNumber}`}
+            onLoad={(e) => {
+              const el = e.currentTarget;
+              if (el.naturalWidth && el.naturalHeight) {
+                setNaturalDimensions({ width: el.naturalWidth, height: el.naturalHeight });
+              }
+            }}
             className="w-full max-w-[1020px] h-auto object-contain rounded-lg border border-white/10 shadow-2xl block pointer-events-none"
           />
 
@@ -169,6 +179,41 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
                   ? 'bg-amber-950/95 text-amber-100 border-amber-500/80 shadow-amber-950/50'
                   : 'bg-emerald-950/95 text-emerald-100 border-emerald-500/80 shadow-emerald-950/50';
 
+                // Coordinate parsing (handles normalized 0..1 and absolute pixel [xmin, ymin, xmax, ymax])
+                const rawBox = det.box || det.bbox;
+                const imgW = naturalDimensions.width || 1920;
+                const imgH = naturalDimensions.height || 1080;
+
+                let leftPct = (det.x ?? 0) * 100;
+                let topPct = (det.y ?? 0) * 100;
+                let widthPct = (det.width ?? 0) * 100;
+                let heightPct = (det.height ?? 0) * 100;
+
+                if (rawBox && Array.isArray(rawBox) && rawBox.length >= 4) {
+                  const [xmin, ymin, xmax, ymax] = rawBox;
+                  if (xmax > 1.0 || ymax > 1.0) {
+                    leftPct = (xmin / imgW) * 100;
+                    topPct = (ymin / imgH) * 100;
+                    widthPct = (Math.max(0, xmax - xmin) / imgW) * 100;
+                    heightPct = (Math.max(0, ymax - ymin) / imgH) * 100;
+                  } else {
+                    leftPct = xmin * 100;
+                    topPct = ymin * 100;
+                    widthPct = Math.max(0, xmax - xmin) * 100;
+                    heightPct = Math.max(0, ymax - ymin) * 100;
+                  }
+                } else if (
+                  (det.x ?? 0) > 1.0 ||
+                  (det.y ?? 0) > 1.0 ||
+                  (det.width ?? 0) > 1.0 ||
+                  (det.height ?? 0) > 1.0
+                ) {
+                  leftPct = ((det.x ?? 0) / imgW) * 100;
+                  topPct = ((det.y ?? 0) / imgH) * 100;
+                  widthPct = ((det.width ?? 0) / imgW) * 100;
+                  heightPct = ((det.height ?? 0) / imgH) * 100;
+                }
+
                 return (
                   <div
                     key={det.id}
@@ -178,10 +223,10 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
                       isSelected ? 'ring-2 ring-white ring-offset-2 ring-offset-black z-30' : 'z-20'
                     }`}
                     style={{
-                      left: `${det.x * 100}%`,
-                      top: `${det.y * 100}%`,
-                      width: `${det.width * 100}%`,
-                      height: `${det.height * 100}%`,
+                      left: `${leftPct}%`,
+                      top: `${topPct}%`,
+                      width: `${widthPct}%`,
+                      height: `${heightPct}%`,
                     }}
                   >
                     {/* Bounding Box Border with precision technical styling */}
@@ -201,7 +246,9 @@ export const DetectionCanvas: React.FC<DetectionCanvasProps> = ({
                       <div
                         className={`absolute -top-6 left-0 flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider font-semibold border ${badgeBg} shadow-lg whitespace-nowrap`}
                       >
-                        <span className="uppercase text-white font-bold">HUMAN</span>
+                        <span className="uppercase text-white font-bold">
+                          {det.label || det.class || 'HUMAN'}
+                        </span>
                         <span className="text-white/80 font-mono">
                           {Math.round(det.confidence * 100)}%
                         </span>

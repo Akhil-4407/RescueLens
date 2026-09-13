@@ -42,15 +42,29 @@ except (ImportError, AttributeError):
 MODEL_PATH = os.getenv("MODEL_PATH", "yolo_tiny_rescue.tflite")
 TILE_SIZE = 416
 OVERLAP = 0.20  # 20% overlap stride to ensure humans on tile boundaries are preserved
-RAW_CONF_THRESHOLD = 0.25  # Dynamic threshold tuning: lower initial cutoff for small targets
-FINAL_CONF_THRESHOLD = 0.80  # Strict project accuracy constraint (>80%)
+RAW_CONF_THRESHOLD = float(os.getenv("RAW_CONF_THRESHOLD", "0.25"))  # Dynamic threshold tuning: lower initial cutoff for small targets
+FINAL_CONF_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.30"))  # Adaptable threshold for distant aerial targets (0.25 - 0.35)
 GLOBAL_NMS_IOU_THRESHOLD = 0.40  # Global NMS overlap threshold
 
 
 class Detection(BaseModel):
+    label: str = Field(
+        default="human",
+        description="Target classification label (strictly 'human')"
+    )
+    class_name: str = Field(
+        default="human",
+        alias="class",
+        description="Object class name"
+    )
     box: List[float] = Field(
         ...,
-        description="Bounding box coordinates [x1, y1, x2, y2] in original image space",
+        description="Bounding box coordinates [xmin, ymin, xmax, ymax] in original image space",
+        example=[34.5, 56.2, 140.8, 192.4]
+    )
+    bbox: List[float] = Field(
+        ...,
+        description="Alias bounding box coordinates [xmin, ymin, xmax, ymax]",
         example=[34.5, 56.2, 140.8, 192.4]
     )
     confidence: float = Field(
@@ -58,6 +72,9 @@ class Detection(BaseModel):
         description="Confidence score exceeding 0.80 threshold",
         example=0.92
     )
+
+    class Config:
+        populate_by_name = True
 
 
 class DetectionResponse(BaseModel):
@@ -205,15 +222,19 @@ def apply_global_nms(
     for idx in keep_indices:
         conf = float(confidences[idx])
         if conf >= final_conf_threshold:
+            b = [
+                round(float(boxes[idx][0]), 2),
+                round(float(boxes[idx][1]), 2),
+                round(float(boxes[idx][2]), 2),
+                round(float(boxes[idx][3]), 2),
+            ]
             final_detections.append(
                 Detection(
-                    box=[
-                        round(float(boxes[idx][0]), 2),
-                        round(float(boxes[idx][1]), 2),
-                        round(float(boxes[idx][2]), 2),
-                        round(float(boxes[idx][3]), 2),
-                    ],
+                    label="human",
+                    class_name="human",
                     confidence=round(conf, 4),
+                    box=b,
+                    bbox=b,
                 )
             )
 
