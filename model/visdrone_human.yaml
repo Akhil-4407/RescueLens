@@ -1,0 +1,10 @@
+# RescueLens - Edge AI Aerial Detection System
+# VisDrone2019 Human Detection Dataset Configuration [B-03 RESCUE EYE]
+
+path: /Users/test/Documents/VisDrone2019-DET-train
+train: /Users/test/Documents/VisDrone2019-DET-train/train.txt
+val: /Users/test/Documents/VisDrone2019-DET-train/val.txt
+
+# Single human target class (Categories 1: pedestrian & 2: people mapped to 0: human)
+names:
+  0: human
