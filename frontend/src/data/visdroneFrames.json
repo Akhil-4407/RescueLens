@@ -1,0 +1,2662 @@
+[
+  {
+    "id": "frame-001",
+    "frameNumber": 1,
+    "filename": "VISDRONE_SEC_A_0001_9999955_00000_d_0000224.jpg",
+    "url": "/mission-pack/drone_frame_01.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:11:13Z",
+    "altitudeMeters": 52,
+    "compassHeading": 37,
+    "heading": 37,
+    "sector": "Sector A \u2014 Grid 2",
+    "gpsCoords": {
+      "lat": 34.0482,
+      "lng": -118.2497
+    },
+    "detections": [
+      {
+        "id": "det-frame-1-1",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.7725,
+        "y": 0.9596,
+        "width": 0.0096,
+        "height": 0.031,
+        "box": [
+          1081.5,
+          756.2,
+          1095.0,
+          780.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1081, 756). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-1-2",
+        "class": "human",
+        "confidence": 0.81,
+        "x": 0.5446,
+        "y": 0.4472,
+        "width": 0.0061,
+        "height": 0.0252,
+        "box": [
+          762.5,
+          352.4,
+          771.0,
+          372.3
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (762, 352). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-1-3",
+        "class": "human",
+        "confidence": 0.81,
+        "x": 0.5428,
+        "y": 0.3894,
+        "width": 0.0051,
+        "height": 0.0204,
+        "box": [
+          759.9,
+          306.8,
+          767.1,
+          322.9
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (759, 306). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-1-4",
+        "class": "human",
+        "confidence": 0.8,
+        "x": 0.4285,
+        "y": 0.4732,
+        "width": 0.0051,
+        "height": 0.0186,
+        "box": [
+          600.0,
+          372.9,
+          607.0,
+          387.5
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (599, 372). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-1-5",
+        "class": "human",
+        "confidence": 0.79,
+        "x": 0.7175,
+        "y": 0.8377,
+        "width": 0.0102,
+        "height": 0.0312,
+        "box": [
+          1004.5,
+          660.1,
+          1018.8,
+          684.7
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1004, 660). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-1-6",
+        "class": "human",
+        "confidence": 0.79,
+        "x": 0.5051,
+        "y": 0.4094,
+        "width": 0.0049,
+        "height": 0.0172,
+        "box": [
+          707.1,
+          322.6,
+          714.0,
+          336.2
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (707, 322). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-002",
+    "frameNumber": 2,
+    "filename": "VISDRONE_SEC_A_0002_0000137_02220_d_0000163.jpg",
+    "url": "/mission-pack/drone_frame_02.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:12:26Z",
+    "altitudeMeters": 59,
+    "compassHeading": 74,
+    "heading": 74,
+    "sector": "Sector A \u2014 Grid 3",
+    "gpsCoords": {
+      "lat": 34.0482,
+      "lng": -118.2482
+    },
+    "detections": [
+      {
+        "id": "det-frame-2-1",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.9241,
+        "y": 0.4345,
+        "width": 0.0109,
+        "height": 0.0484,
+        "box": [
+          1774.3,
+          469.2,
+          1795.2,
+          521.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1774, 469). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-2-2",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.3264,
+        "y": 0.3291,
+        "width": 0.008,
+        "height": 0.0323,
+        "box": [
+          626.7,
+          355.5,
+          642.0,
+          390.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (626, 355). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-2-3",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.2048,
+        "y": 0.5201,
+        "width": 0.0089,
+        "height": 0.0423,
+        "box": [
+          393.2,
+          561.8,
+          410.2,
+          607.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (393, 561). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-2-4",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.7705,
+        "y": 0.326,
+        "width": 0.0053,
+        "height": 0.0276,
+        "box": [
+          1479.3,
+          352.1,
+          1489.5,
+          381.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1479, 352). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-2-5",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.8118,
+        "y": 0.3813,
+        "width": 0.0093,
+        "height": 0.0356,
+        "box": [
+          1558.7,
+          411.8,
+          1576.5,
+          450.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1558, 411). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-2-6",
+        "class": "human",
+        "confidence": 0.82,
+        "x": 0.3619,
+        "y": 0.3254,
+        "width": 0.008,
+        "height": 0.0336,
+        "box": [
+          694.9,
+          351.5,
+          710.2,
+          387.7
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (694, 351). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-003",
+    "frameNumber": 3,
+    "filename": "VISDRONE_SEC_A_0003_0000143_01681_d_0000056.jpg",
+    "url": "/mission-pack/drone_frame_03.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:13:39Z",
+    "altitudeMeters": 66,
+    "compassHeading": 111,
+    "heading": 111,
+    "sector": "Sector A \u2014 Grid 4",
+    "gpsCoords": {
+      "lat": 34.0482,
+      "lng": -118.2467
+    },
+    "detections": [
+      {
+        "id": "det-frame-3-1",
+        "class": "human",
+        "confidence": 0.91,
+        "x": 0.786,
+        "y": 0.5131,
+        "width": 0.0102,
+        "height": 0.0421,
+        "box": [
+          1509.1,
+          554.2,
+          1528.6,
+          599.7
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1509, 554). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-3-2",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.6927,
+        "y": 0.3785,
+        "width": 0.0063,
+        "height": 0.0298,
+        "box": [
+          1330.0,
+          408.8,
+          1342.1,
+          441.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1330, 408). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-3-3",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.7289,
+        "y": 0.4064,
+        "width": 0.0081,
+        "height": 0.0303,
+        "box": [
+          1399.4,
+          438.9,
+          1415.0,
+          471.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1399, 438). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-3-4",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.8758,
+        "y": 0.6644,
+        "width": 0.0101,
+        "height": 0.0427,
+        "box": [
+          1681.5,
+          717.5,
+          1700.9,
+          763.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1681, 717). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-3-5",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.8967,
+        "y": 0.5253,
+        "width": 0.0118,
+        "height": 0.0444,
+        "box": [
+          1721.6,
+          567.3,
+          1744.3,
+          615.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1721, 567). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-3-6",
+        "class": "human",
+        "confidence": 0.82,
+        "x": 0.8015,
+        "y": 0.501,
+        "width": 0.0077,
+        "height": 0.0373,
+        "box": [
+          1538.8,
+          541.1,
+          1553.6,
+          581.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1538, 541). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-004",
+    "frameNumber": 4,
+    "filename": "VISDRONE_SEC_A_0004_9999937_00000_d_0000003.jpg",
+    "url": "/mission-pack/drone_frame_04.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:14:52Z",
+    "altitudeMeters": 73,
+    "compassHeading": 148,
+    "heading": 148,
+    "sector": "Sector A \u2014 Grid 5",
+    "gpsCoords": {
+      "lat": 34.0482,
+      "lng": -118.2452
+    },
+    "detections": [
+      {
+        "id": "det-frame-4-1",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.3223,
+        "y": 0.3436,
+        "width": 0.0078,
+        "height": 0.0282,
+        "box": [
+          617.5,
+          370.4,
+          632.5,
+          400.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (617, 370). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-4-2",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.547,
+        "y": 0.1816,
+        "width": 0.0064,
+        "height": 0.0255,
+        "box": [
+          1048.1,
+          195.8,
+          1060.4,
+          223.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1048, 195). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-4-3",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.8463,
+        "y": 0.6349,
+        "width": 0.0109,
+        "height": 0.0337,
+        "box": [
+          1621.4,
+          684.4,
+          1642.3,
+          720.7
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1621, 684). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-4-4",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.3836,
+        "y": 0.3081,
+        "width": 0.0082,
+        "height": 0.0278,
+        "box": [
+          735.0,
+          332.1,
+          750.7,
+          362.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (735, 332). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-4-5",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.8113,
+        "y": 0.6369,
+        "width": 0.0097,
+        "height": 0.0327,
+        "box": [
+          1554.4,
+          686.6,
+          1573.1,
+          721.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1554, 686). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-4-6",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.3608,
+        "y": 0.3121,
+        "width": 0.0075,
+        "height": 0.0306,
+        "box": [
+          691.2,
+          336.4,
+          705.7,
+          369.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (691, 336). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-005",
+    "frameNumber": 5,
+    "filename": "VISDRONE_SEC_A_0005_0000135_01327_d_0000151.jpg",
+    "url": "/mission-pack/drone_frame_05.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:15:05Z",
+    "altitudeMeters": 80,
+    "compassHeading": 185,
+    "heading": 185,
+    "sector": "Sector A \u2014 Grid 6",
+    "gpsCoords": {
+      "lat": 34.0482,
+      "lng": -118.2437
+    },
+    "detections": [
+      {
+        "id": "det-frame-5-1",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.6189,
+        "y": 0.573,
+        "width": 0.0084,
+        "height": 0.0354,
+        "box": [
+          1188.3,
+          618.8,
+          1204.5,
+          657.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1188, 618). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-5-2",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.6822,
+        "y": 0.5637,
+        "width": 0.0073,
+        "height": 0.0355,
+        "box": [
+          1309.9,
+          608.8,
+          1323.9,
+          647.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1309, 608). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-5-3",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.6563,
+        "y": 0.5236,
+        "width": 0.007,
+        "height": 0.0323,
+        "box": [
+          1260.1,
+          565.5,
+          1273.5,
+          600.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1260, 565). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-5-4",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.6546,
+        "y": 0.6269,
+        "width": 0.0118,
+        "height": 0.0434,
+        "box": [
+          1256.8,
+          677.1,
+          1279.6,
+          724.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1256, 677). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-5-5",
+        "class": "human",
+        "confidence": 0.84,
+        "x": 0.5457,
+        "y": 0.5037,
+        "width": 0.0063,
+        "height": 0.0272,
+        "box": [
+          1047.7,
+          544.0,
+          1059.7,
+          573.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1047, 544). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-5-6",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.6328,
+        "y": 0.5792,
+        "width": 0.0103,
+        "height": 0.0403,
+        "box": [
+          1215.1,
+          625.5,
+          1234.8,
+          669.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1215, 625). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-006",
+    "frameNumber": 6,
+    "filename": "VISDRONE_SEC_A_0006_9999955_00000_d_0000235.jpg",
+    "url": "/mission-pack/drone_frame_06.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:16:18Z",
+    "altitudeMeters": 46,
+    "compassHeading": 222,
+    "heading": 222,
+    "sector": "Sector A \u2014 Grid 7",
+    "gpsCoords": {
+      "lat": 34.0494,
+      "lng": -118.2497
+    },
+    "detections": [
+      {
+        "id": "det-frame-6-1",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.2783,
+        "y": 0.2995,
+        "width": 0.005,
+        "height": 0.0207,
+        "box": [
+          389.7,
+          236.0,
+          396.6,
+          252.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (389, 236). Ground triage assigned.",
+        "thermalSignature": "36.8\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-6-2",
+        "class": "human",
+        "confidence": 0.81,
+        "x": 0.2856,
+        "y": 0.3085,
+        "width": 0.0053,
+        "height": 0.0197,
+        "box": [
+          399.8,
+          243.1,
+          407.2,
+          258.6
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (399, 243). Ground triage assigned.",
+        "thermalSignature": "36.8\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-6-3",
+        "class": "human",
+        "confidence": 0.8,
+        "x": 0.3012,
+        "y": 0.5055,
+        "width": 0.0052,
+        "height": 0.0205,
+        "box": [
+          421.6,
+          398.3,
+          428.9,
+          414.5
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (421, 398). Ground triage assigned.",
+        "thermalSignature": "36.8\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-6-4",
+        "class": "human",
+        "confidence": 0.8,
+        "x": 0.3064,
+        "y": 0.2815,
+        "width": 0.0043,
+        "height": 0.0163,
+        "box": [
+          429.0,
+          221.8,
+          435.0,
+          234.7
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (428, 221). Ground triage assigned.",
+        "thermalSignature": "36.8\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-6-5",
+        "class": "human",
+        "confidence": 0.79,
+        "x": 0.2934,
+        "y": 0.2647,
+        "width": 0.0039,
+        "height": 0.0172,
+        "box": [
+          410.8,
+          208.6,
+          416.3,
+          222.1
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (410, 208). Ground triage assigned.",
+        "thermalSignature": "36.8\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-6-6",
+        "class": "human",
+        "confidence": 0.79,
+        "x": 0.2999,
+        "y": 0.3033,
+        "width": 0.005,
+        "height": 0.0218,
+        "box": [
+          419.8,
+          239.0,
+          426.8,
+          256.1
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (419, 238). Ground triage assigned.",
+        "thermalSignature": "36.8\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-007",
+    "frameNumber": 7,
+    "filename": "VISDRONE_SEC_A_0007_0000143_00281_d_0000049.jpg",
+    "url": "/mission-pack/drone_frame_07.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:17:31Z",
+    "altitudeMeters": 53,
+    "compassHeading": 259,
+    "heading": 259,
+    "sector": "Sector A \u2014 Grid 8",
+    "gpsCoords": {
+      "lat": 34.0494,
+      "lng": -118.2482
+    },
+    "detections": [
+      {
+        "id": "det-frame-7-1",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.2278,
+        "y": 0.7663,
+        "width": 0.0111,
+        "height": 0.0388,
+        "box": [
+          437.4,
+          827.6,
+          458.6,
+          869.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (437, 827). Ground triage assigned.",
+        "thermalSignature": "36.9\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-7-2",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.1265,
+        "y": 0.5191,
+        "width": 0.0046,
+        "height": 0.0233,
+        "box": [
+          242.9,
+          560.7,
+          251.7,
+          585.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (242, 560). Ground triage assigned.",
+        "thermalSignature": "36.9\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-7-3",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.1684,
+        "y": 0.5303,
+        "width": 0.0036,
+        "height": 0.0213,
+        "box": [
+          323.4,
+          572.7,
+          330.3,
+          595.7
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (323, 572). Ground triage assigned.",
+        "thermalSignature": "36.9\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-7-4",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.1826,
+        "y": 0.7081,
+        "width": 0.0072,
+        "height": 0.0322,
+        "box": [
+          350.6,
+          764.8,
+          364.3,
+          799.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (350, 764). Ground triage assigned.",
+        "thermalSignature": "36.9\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-7-5",
+        "class": "human",
+        "confidence": 0.84,
+        "x": 0.4155,
+        "y": 0.7875,
+        "width": 0.0094,
+        "height": 0.0393,
+        "box": [
+          797.7,
+          850.5,
+          815.8,
+          892.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (797, 850). Ground triage assigned.",
+        "thermalSignature": "36.9\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-7-6",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.1583,
+        "y": 0.6236,
+        "width": 0.0062,
+        "height": 0.0267,
+        "box": [
+          303.9,
+          673.5,
+          315.8,
+          702.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (303, 673). Ground triage assigned.",
+        "thermalSignature": "36.9\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-008",
+    "frameNumber": 8,
+    "filename": "VISDRONE_SEC_A_0008_0000143_00881_d_0000052.jpg",
+    "url": "/mission-pack/drone_frame_08.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:18:44Z",
+    "altitudeMeters": 60,
+    "compassHeading": 296,
+    "heading": 296,
+    "sector": "Sector A \u2014 Grid 1",
+    "gpsCoords": {
+      "lat": 34.0494,
+      "lng": -118.2467
+    },
+    "detections": [
+      {
+        "id": "det-frame-8-1",
+        "class": "human",
+        "confidence": 0.96,
+        "x": 0.6525,
+        "y": 0.5763,
+        "width": 0.0067,
+        "height": 0.0306,
+        "box": [
+          1252.8,
+          622.4,
+          1265.6,
+          655.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1252, 622). Ground triage assigned.",
+        "thermalSignature": "37.0\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-8-2",
+        "class": "human",
+        "confidence": 0.94,
+        "x": 0.6433,
+        "y": 0.5782,
+        "width": 0.0066,
+        "height": 0.0294,
+        "box": [
+          1235.1,
+          624.5,
+          1247.8,
+          656.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1235, 624). Ground triage assigned.",
+        "thermalSignature": "37.0\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-8-3",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.782,
+        "y": 0.7697,
+        "width": 0.0092,
+        "height": 0.0413,
+        "box": [
+          1501.5,
+          831.3,
+          1519.2,
+          875.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1501, 831). Ground triage assigned.",
+        "thermalSignature": "37.0\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-8-4",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.7242,
+        "y": 0.6581,
+        "width": 0.009,
+        "height": 0.0397,
+        "box": [
+          1390.5,
+          710.8,
+          1407.8,
+          753.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1390, 710). Ground triage assigned.",
+        "thermalSignature": "37.0\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-8-5",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.6643,
+        "y": 0.5816,
+        "width": 0.0062,
+        "height": 0.0281,
+        "box": [
+          1275.5,
+          628.2,
+          1287.4,
+          658.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1275, 628). Ground triage assigned.",
+        "thermalSignature": "37.0\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-8-6",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.7392,
+        "y": 0.6412,
+        "width": 0.0078,
+        "height": 0.0312,
+        "box": [
+          1419.3,
+          692.5,
+          1434.3,
+          726.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1419, 692). Ground triage assigned.",
+        "thermalSignature": "37.0\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-009",
+    "frameNumber": 9,
+    "filename": "VISDRONE_SEC_A_0009_9999955_00000_d_0000285.jpg",
+    "url": "/mission-pack/drone_frame_09.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:19:57Z",
+    "altitudeMeters": 67,
+    "compassHeading": 333,
+    "heading": 333,
+    "sector": "Sector A \u2014 Grid 2",
+    "gpsCoords": {
+      "lat": 34.0494,
+      "lng": -118.2452
+    },
+    "detections": [
+      {
+        "id": "det-frame-9-1",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.7664,
+        "y": 0.3992,
+        "width": 0.0095,
+        "height": 0.0265,
+        "box": [
+          1073.0,
+          314.6,
+          1086.3,
+          335.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1072, 314). Ground triage assigned.",
+        "thermalSignature": "37.1\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-9-2",
+        "class": "human",
+        "confidence": 0.84,
+        "x": 0.4086,
+        "y": 0.2452,
+        "width": 0.0032,
+        "height": 0.0151,
+        "box": [
+          572.1,
+          193.2,
+          576.6,
+          205.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (572, 193). Ground triage assigned.",
+        "thermalSignature": "37.1\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-9-3",
+        "class": "human",
+        "confidence": 0.84,
+        "x": 0.397,
+        "y": 0.2449,
+        "width": 0.0031,
+        "height": 0.0138,
+        "box": [
+          555.8,
+          193.0,
+          560.1,
+          203.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (555, 193). Ground triage assigned.",
+        "thermalSignature": "37.1\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-9-4",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.4487,
+        "y": 0.2359,
+        "width": 0.0032,
+        "height": 0.0139,
+        "box": [
+          628.1,
+          185.9,
+          632.5,
+          196.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (628, 185). Ground triage assigned.",
+        "thermalSignature": "37.1\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-9-5",
+        "class": "human",
+        "confidence": 0.82,
+        "x": 0.4141,
+        "y": 0.2414,
+        "width": 0.0034,
+        "height": 0.0144,
+        "box": [
+          579.8,
+          190.2,
+          584.5,
+          201.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (579, 190). Ground triage assigned.",
+        "thermalSignature": "37.1\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-9-6",
+        "class": "human",
+        "confidence": 0.8,
+        "x": 0.4541,
+        "y": 0.2428,
+        "width": 0.0039,
+        "height": 0.016,
+        "box": [
+          635.7,
+          191.3,
+          641.2,
+          203.9
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (635, 191). Ground triage assigned.",
+        "thermalSignature": "37.1\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-010",
+    "frameNumber": 10,
+    "filename": "VISDRONE_SEC_A_0010_9999987_00000_d_0000044.jpg",
+    "url": "/mission-pack/drone_frame_10.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:20:10Z",
+    "altitudeMeters": 74,
+    "compassHeading": 10,
+    "heading": 10,
+    "sector": "Sector A \u2014 Grid 3",
+    "gpsCoords": {
+      "lat": 34.0494,
+      "lng": -118.2437
+    },
+    "detections": [
+      {
+        "id": "det-frame-10-1",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.0447,
+        "y": 0.5496,
+        "width": 0.0129,
+        "height": 0.0222,
+        "box": [
+          62.6,
+          577.1,
+          80.7,
+          600.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (62, 577). Ground triage assigned.",
+        "thermalSignature": "37.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-10-2",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.4828,
+        "y": 0.5516,
+        "width": 0.0103,
+        "height": 0.0323,
+        "box": [
+          675.9,
+          579.2,
+          690.2,
+          613.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (675, 579). Ground triage assigned.",
+        "thermalSignature": "37.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-10-3",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.4371,
+        "y": 0.4176,
+        "width": 0.0079,
+        "height": 0.0252,
+        "box": [
+          612.0,
+          438.4,
+          623.0,
+          464.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (611, 438). Ground triage assigned.",
+        "thermalSignature": "37.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-10-4",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.5306,
+        "y": 0.5493,
+        "width": 0.0097,
+        "height": 0.0316,
+        "box": [
+          742.8,
+          576.8,
+          756.5,
+          609.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (742, 576). Ground triage assigned.",
+        "thermalSignature": "37.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-10-5",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.5282,
+        "y": 0.4331,
+        "width": 0.0083,
+        "height": 0.025,
+        "box": [
+          739.5,
+          454.7,
+          751.0,
+          481.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (739, 454). Ground triage assigned.",
+        "thermalSignature": "37.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-10-6",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.5182,
+        "y": 0.4282,
+        "width": 0.0065,
+        "height": 0.0219,
+        "box": [
+          725.5,
+          449.6,
+          734.6,
+          472.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (725, 449). Ground triage assigned.",
+        "thermalSignature": "37.2\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-011",
+    "frameNumber": 11,
+    "filename": "VISDRONE_SEC_A_0011_0000070_06990_d_0000007.jpg",
+    "url": "/mission-pack/drone_frame_11.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:21:23Z",
+    "altitudeMeters": 81,
+    "compassHeading": 47,
+    "heading": 47,
+    "sector": "Sector A \u2014 Grid 4",
+    "gpsCoords": {
+      "lat": 34.0506,
+      "lng": -118.2497
+    },
+    "detections": [
+      {
+        "id": "det-frame-11-1",
+        "class": "human",
+        "confidence": 0.91,
+        "x": 0.6401,
+        "y": 0.2298,
+        "width": 0.014,
+        "height": 0.0693,
+        "box": [
+          870.5,
+          175.8,
+          889.5,
+          228.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (870, 175). Ground triage assigned.",
+        "thermalSignature": "37.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-11-2",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.7768,
+        "y": 0.4817,
+        "width": 0.0123,
+        "height": 0.0577,
+        "box": [
+          1056.5,
+          368.5,
+          1073.2,
+          412.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1056, 368). Ground triage assigned.",
+        "thermalSignature": "37.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-11-3",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.6576,
+        "y": 0.2391,
+        "width": 0.0126,
+        "height": 0.0594,
+        "box": [
+          894.3,
+          182.9,
+          911.4,
+          228.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (894, 182). Ground triage assigned.",
+        "thermalSignature": "37.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-11-4",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.5392,
+        "y": 0.2246,
+        "width": 0.0127,
+        "height": 0.0637,
+        "box": [
+          733.3,
+          171.8,
+          750.6,
+          220.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (733, 171). Ground triage assigned.",
+        "thermalSignature": "37.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-11-5",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.56,
+        "y": 0.1104,
+        "width": 0.0099,
+        "height": 0.039,
+        "box": [
+          761.6,
+          84.4,
+          775.1,
+          114.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (761, 84). Ground triage assigned.",
+        "thermalSignature": "37.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-11-6",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.437,
+        "y": 0.2696,
+        "width": 0.0111,
+        "height": 0.0587,
+        "box": [
+          594.4,
+          206.2,
+          609.4,
+          251.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (594, 206). Ground triage assigned.",
+        "thermalSignature": "37.3\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-012",
+    "frameNumber": 12,
+    "filename": "VISDRONE_SEC_A_0012_0000068_00571_d_0000003.jpg",
+    "url": "/mission-pack/drone_frame_12.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:22:36Z",
+    "altitudeMeters": 47,
+    "compassHeading": 84,
+    "heading": 84,
+    "sector": "Sector A \u2014 Grid 5",
+    "gpsCoords": {
+      "lat": 34.0506,
+      "lng": -118.2482
+    },
+    "detections": [
+      {
+        "id": "det-frame-12-1",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.5013,
+        "y": 0.1308,
+        "width": 0.0077,
+        "height": 0.0325,
+        "box": [
+          681.8,
+          100.1,
+          692.2,
+          125.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (681, 100). Ground triage assigned.",
+        "thermalSignature": "37.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-12-2",
+        "class": "human",
+        "confidence": 0.91,
+        "x": 0.5108,
+        "y": 0.0238,
+        "width": 0.0069,
+        "height": 0.0276,
+        "box": [
+          694.7,
+          18.2,
+          704.1,
+          39.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (694, 18). Ground triage assigned.",
+        "thermalSignature": "37.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-12-3",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.4797,
+        "y": 0.0369,
+        "width": 0.0071,
+        "height": 0.0292,
+        "box": [
+          652.4,
+          28.2,
+          662.1,
+          50.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (652, 28). Ground triage assigned.",
+        "thermalSignature": "37.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-12-4",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.498,
+        "y": 0.0069,
+        "width": 0.0064,
+        "height": 0.0227,
+        "box": [
+          677.3,
+          5.3,
+          686.0,
+          22.7
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (677, 5). Ground triage assigned.",
+        "thermalSignature": "37.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-12-5",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.4372,
+        "y": 0.0287,
+        "width": 0.0082,
+        "height": 0.0296,
+        "box": [
+          594.5,
+          21.9,
+          605.6,
+          44.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (594, 21). Ground triage assigned.",
+        "thermalSignature": "37.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-12-6",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.6646,
+        "y": 0.0102,
+        "width": 0.0049,
+        "height": 0.0183,
+        "box": [
+          903.8,
+          7.8,
+          910.5,
+          21.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (903, 7). Ground triage assigned.",
+        "thermalSignature": "37.4\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-013",
+    "frameNumber": 13,
+    "filename": "VISDRONE_SEC_A_0013_0000068_00460_d_0000002.jpg",
+    "url": "/mission-pack/drone_frame_13.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:23:49Z",
+    "altitudeMeters": 54,
+    "compassHeading": 121,
+    "heading": 121,
+    "sector": "Sector A \u2014 Grid 6",
+    "gpsCoords": {
+      "lat": 34.0506,
+      "lng": -118.2467
+    },
+    "detections": [
+      {
+        "id": "det-frame-13-1",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.91,
+        "y": 0.4091,
+        "width": 0.0167,
+        "height": 0.0564,
+        "box": [
+          1237.5,
+          312.9,
+          1260.3,
+          356.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1237, 312). Ground triage assigned.",
+        "thermalSignature": "37.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-13-2",
+        "class": "human",
+        "confidence": 0.91,
+        "x": 0.5293,
+        "y": 0.1288,
+        "width": 0.0076,
+        "height": 0.0296,
+        "box": [
+          719.9,
+          98.5,
+          730.2,
+          121.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (719, 98). Ground triage assigned.",
+        "thermalSignature": "37.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-13-3",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.9746,
+        "y": 0.2496,
+        "width": 0.0145,
+        "height": 0.0479,
+        "box": [
+          1325.4,
+          190.9,
+          1345.1,
+          227.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1325, 190). Ground triage assigned.",
+        "thermalSignature": "37.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-13-4",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.5471,
+        "y": 0.1272,
+        "width": 0.009,
+        "height": 0.0374,
+        "box": [
+          744.0,
+          97.3,
+          756.2,
+          126.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (744, 97). Ground triage assigned.",
+        "thermalSignature": "37.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-13-5",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.5193,
+        "y": 0.1183,
+        "width": 0.0076,
+        "height": 0.0377,
+        "box": [
+          706.2,
+          90.5,
+          716.5,
+          119.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (706, 90). Ground triage assigned.",
+        "thermalSignature": "37.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-13-6",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.4456,
+        "y": 0.0996,
+        "width": 0.0069,
+        "height": 0.0287,
+        "box": [
+          606.0,
+          76.2,
+          615.4,
+          98.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (606, 76). Ground triage assigned.",
+        "thermalSignature": "37.5\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-014",
+    "frameNumber": 14,
+    "filename": "VISDRONE_SEC_A_0014_0000366_09605_d_0000817.jpg",
+    "url": "/mission-pack/drone_frame_14.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:24:02Z",
+    "altitudeMeters": 61,
+    "compassHeading": 158,
+    "heading": 158,
+    "sector": "Sector A \u2014 Grid 7",
+    "gpsCoords": {
+      "lat": 34.0506,
+      "lng": -118.2452
+    },
+    "detections": [
+      {
+        "id": "det-frame-14-1",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.7586,
+        "y": 0.3715,
+        "width": 0.0075,
+        "height": 0.038,
+        "box": [
+          1031.7,
+          284.2,
+          1041.9,
+          313.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1031, 284). Ground triage assigned.",
+        "thermalSignature": "37.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-14-2",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.7482,
+        "y": 0.3351,
+        "width": 0.0064,
+        "height": 0.0277,
+        "box": [
+          1017.6,
+          256.4,
+          1026.2,
+          277.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1017, 256). Ground triage assigned.",
+        "thermalSignature": "37.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-14-3",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.9495,
+        "y": 0.395,
+        "width": 0.0113,
+        "height": 0.0467,
+        "box": [
+          1291.3,
+          302.2,
+          1306.6,
+          337.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1291, 302). Ground triage assigned.",
+        "thermalSignature": "37.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-14-4",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.1238,
+        "y": 0.6904,
+        "width": 0.0164,
+        "height": 0.0663,
+        "box": [
+          168.3,
+          528.1,
+          190.7,
+          578.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (168, 528). Ground triage assigned.",
+        "thermalSignature": "37.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-14-5",
+        "class": "human",
+        "confidence": 0.79,
+        "x": 0.756,
+        "y": 0.2961,
+        "width": 0.0082,
+        "height": 0.0332,
+        "box": [
+          1028.2,
+          226.5,
+          1039.4,
+          252.0
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1028, 226). Ground triage assigned.",
+        "thermalSignature": "37.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-14-6",
+        "class": "human",
+        "confidence": 0.79,
+        "x": 0.7719,
+        "y": 0.3573,
+        "width": 0.008,
+        "height": 0.0356,
+        "box": [
+          1049.8,
+          273.3,
+          1060.8,
+          300.5
+        ],
+        "priority": "HIGH",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1049, 273). Ground triage assigned.",
+        "thermalSignature": "37.6\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-015",
+    "frameNumber": 15,
+    "filename": "VISDRONE_SEC_A_0015_0000043_00500_d_0000077.jpg",
+    "url": "/mission-pack/drone_frame_15.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:25:15Z",
+    "altitudeMeters": 68,
+    "compassHeading": 195,
+    "heading": 195,
+    "sector": "Sector A \u2014 Grid 8",
+    "gpsCoords": {
+      "lat": 34.0506,
+      "lng": -118.2437
+    },
+    "detections": [
+      {
+        "id": "det-frame-15-1",
+        "class": "human",
+        "confidence": 0.94,
+        "x": 0.8078,
+        "y": 0.7426,
+        "width": 0.0149,
+        "height": 0.0622,
+        "box": [
+          775.5,
+          401.0,
+          789.8,
+          434.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (775, 401). Ground triage assigned.",
+        "thermalSignature": "36.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-15-2",
+        "class": "human",
+        "confidence": 0.93,
+        "x": 0.9332,
+        "y": 0.657,
+        "width": 0.0147,
+        "height": 0.0669,
+        "box": [
+          895.9,
+          354.8,
+          910.0,
+          390.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (895, 354). Ground triage assigned.",
+        "thermalSignature": "36.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-15-3",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.117,
+        "y": 0.5181,
+        "width": 0.0124,
+        "height": 0.0515,
+        "box": [
+          112.3,
+          279.8,
+          124.2,
+          307.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (112, 279). Ground triage assigned.",
+        "thermalSignature": "36.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-15-4",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.9497,
+        "y": 0.5126,
+        "width": 0.0132,
+        "height": 0.0511,
+        "box": [
+          911.7,
+          276.8,
+          924.4,
+          304.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (911, 276). Ground triage assigned.",
+        "thermalSignature": "36.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-15-5",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.8295,
+        "y": 0.4811,
+        "width": 0.0112,
+        "height": 0.0396,
+        "box": [
+          796.3,
+          259.8,
+          807.0,
+          281.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (796, 259). Ground triage assigned.",
+        "thermalSignature": "36.2\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-15-6",
+        "class": "human",
+        "confidence": 0.86,
+        "x": 0.5309,
+        "y": 0.8058,
+        "width": 0.0143,
+        "height": 0.064,
+        "box": [
+          509.7,
+          435.1,
+          523.5,
+          469.7
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (509, 435). Ground triage assigned.",
+        "thermalSignature": "36.2\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-016",
+    "frameNumber": 16,
+    "filename": "VISDRONE_SEC_A_0016_0000047_03500_d_0000095.jpg",
+    "url": "/mission-pack/drone_frame_16.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:26:28Z",
+    "altitudeMeters": 75,
+    "compassHeading": 232,
+    "heading": 232,
+    "sector": "Sector A \u2014 Grid 1",
+    "gpsCoords": {
+      "lat": 34.0518,
+      "lng": -118.2497
+    },
+    "detections": [
+      {
+        "id": "det-frame-16-1",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.832,
+        "y": 0.8974,
+        "width": 0.0146,
+        "height": 0.0532,
+        "box": [
+          798.8,
+          484.6,
+          812.8,
+          513.3
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (798, 484). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-16-2",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.8,
+        "y": 0.8879,
+        "width": 0.0197,
+        "height": 0.0749,
+        "box": [
+          768.0,
+          479.5,
+          786.9,
+          519.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (767, 479). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-16-3",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.2904,
+        "y": 0.8649,
+        "width": 0.0157,
+        "height": 0.067,
+        "box": [
+          278.8,
+          467.1,
+          293.9,
+          503.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (278, 467). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-16-4",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.2495,
+        "y": 0.8941,
+        "width": 0.0135,
+        "height": 0.0673,
+        "box": [
+          239.5,
+          482.8,
+          252.4,
+          519.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (239, 482). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-16-5",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.4579,
+        "y": 0.4951,
+        "width": 0.0081,
+        "height": 0.0361,
+        "box": [
+          439.6,
+          267.4,
+          447.4,
+          286.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (439, 267). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-16-6",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.6222,
+        "y": 0.4889,
+        "width": 0.0085,
+        "height": 0.036,
+        "box": [
+          597.3,
+          264.0,
+          605.5,
+          283.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (597, 263). Ground triage assigned.",
+        "thermalSignature": "36.3\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-017",
+    "frameNumber": 17,
+    "filename": "VISDRONE_SEC_A_0017_9999955_00000_d_0000236.jpg",
+    "url": "/mission-pack/drone_frame_17.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:27:41Z",
+    "altitudeMeters": 82,
+    "compassHeading": 269,
+    "heading": 269,
+    "sector": "Sector A \u2014 Grid 2",
+    "gpsCoords": {
+      "lat": 34.0518,
+      "lng": -118.2482
+    },
+    "detections": [
+      {
+        "id": "det-frame-17-1",
+        "class": "human",
+        "confidence": 0.93,
+        "x": 0.2775,
+        "y": 0.1769,
+        "width": 0.0061,
+        "height": 0.028,
+        "box": [
+          388.4,
+          139.4,
+          397.0,
+          161.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (388, 139). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-17-2",
+        "class": "human",
+        "confidence": 0.93,
+        "x": 0.6492,
+        "y": 0.4007,
+        "width": 0.008,
+        "height": 0.0331,
+        "box": [
+          908.8,
+          315.7,
+          920.0,
+          341.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (908, 315). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-17-3",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.246,
+        "y": 0.1719,
+        "width": 0.0071,
+        "height": 0.0267,
+        "box": [
+          344.3,
+          135.5,
+          354.3,
+          156.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (344, 135). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-17-4",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.7034,
+        "y": 0.1876,
+        "width": 0.0055,
+        "height": 0.0258,
+        "box": [
+          984.8,
+          147.8,
+          992.5,
+          168.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (984, 147). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-17-5",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.732,
+        "y": 0.7647,
+        "width": 0.0103,
+        "height": 0.0429,
+        "box": [
+          1024.8,
+          602.5,
+          1039.2,
+          636.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1024, 602). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-17-6",
+        "class": "human",
+        "confidence": 0.87,
+        "x": 0.27,
+        "y": 0.1288,
+        "width": 0.0059,
+        "height": 0.0234,
+        "box": [
+          378.0,
+          101.5,
+          386.3,
+          119.9
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (377, 101). Ground triage assigned.",
+        "thermalSignature": "36.4\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-018",
+    "frameNumber": 18,
+    "filename": "VISDRONE_SEC_A_0018_0000068_00001_d_0000001.jpg",
+    "url": "/mission-pack/drone_frame_18.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:28:54Z",
+    "altitudeMeters": 48,
+    "compassHeading": 306,
+    "heading": 306,
+    "sector": "Sector A \u2014 Grid 3",
+    "gpsCoords": {
+      "lat": 34.0518,
+      "lng": -118.2467
+    },
+    "detections": [
+      {
+        "id": "det-frame-18-1",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.3081,
+        "y": 0.1984,
+        "width": 0.0109,
+        "height": 0.041,
+        "box": [
+          419.1,
+          151.8,
+          433.9,
+          183.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (419, 151). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-18-2",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.5648,
+        "y": 0.2718,
+        "width": 0.009,
+        "height": 0.0396,
+        "box": [
+          768.1,
+          207.9,
+          780.4,
+          238.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (768, 207). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-18-3",
+        "class": "human",
+        "confidence": 0.88,
+        "x": 0.578,
+        "y": 0.2745,
+        "width": 0.0112,
+        "height": 0.0466,
+        "box": [
+          786.1,
+          210.0,
+          801.4,
+          245.7
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (786, 210). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-18-4",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.3031,
+        "y": 0.1512,
+        "width": 0.0076,
+        "height": 0.0325,
+        "box": [
+          412.3,
+          115.6,
+          422.6,
+          140.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (412, 115). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-18-5",
+        "class": "human",
+        "confidence": 0.85,
+        "x": 0.5022,
+        "y": 0.4009,
+        "width": 0.0124,
+        "height": 0.0459,
+        "box": [
+          683.0,
+          306.7,
+          699.8,
+          341.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (683, 306). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-18-6",
+        "class": "human",
+        "confidence": 0.82,
+        "x": 0.7794,
+        "y": 0.4597,
+        "width": 0.0139,
+        "height": 0.0454,
+        "box": [
+          1060.0,
+          351.7,
+          1078.8,
+          386.4
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1059, 351). Ground triage assigned.",
+        "thermalSignature": "36.5\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-019",
+    "frameNumber": 19,
+    "filename": "VISDRONE_SEC_A_0019_0000297_00001_d_0000057.jpg",
+    "url": "/mission-pack/drone_frame_19.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:29:07Z",
+    "altitudeMeters": 55,
+    "compassHeading": 343,
+    "heading": 343,
+    "sector": "Sector A \u2014 Grid 4",
+    "gpsCoords": {
+      "lat": 34.0518,
+      "lng": -118.2452
+    },
+    "detections": [
+      {
+        "id": "det-frame-19-1",
+        "class": "human",
+        "confidence": 0.91,
+        "x": 0.0041,
+        "y": 0.4841,
+        "width": 0.0115,
+        "height": 0.0356,
+        "box": [
+          5.6,
+          370.4,
+          21.2,
+          397.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (5, 370). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-19-2",
+        "class": "human",
+        "confidence": 0.91,
+        "x": 0.2061,
+        "y": 0.2302,
+        "width": 0.0081,
+        "height": 0.0349,
+        "box": [
+          280.3,
+          176.1,
+          291.3,
+          202.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (280, 176). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-19-3",
+        "class": "human",
+        "confidence": 0.9,
+        "x": 0.7439,
+        "y": 0.4818,
+        "width": 0.0127,
+        "height": 0.0513,
+        "box": [
+          1011.7,
+          368.6,
+          1029.0,
+          407.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1011, 368). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-19-4",
+        "class": "human",
+        "confidence": 0.84,
+        "x": 0.6764,
+        "y": 0.5408,
+        "width": 0.0095,
+        "height": 0.0336,
+        "box": [
+          919.9,
+          413.8,
+          932.7,
+          439.5
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (919, 413). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-19-5",
+        "class": "human",
+        "confidence": 0.83,
+        "x": 0.8041,
+        "y": 0.6019,
+        "width": 0.015,
+        "height": 0.0553,
+        "box": [
+          1093.6,
+          460.4,
+          1114.0,
+          502.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1093, 460). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-19-6",
+        "class": "human",
+        "confidence": 0.82,
+        "x": 0.6922,
+        "y": 0.3832,
+        "width": 0.0085,
+        "height": 0.0428,
+        "box": [
+          941.4,
+          293.1,
+          953.0,
+          325.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (941, 293). Ground triage assigned.",
+        "thermalSignature": "36.6\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  },
+  {
+    "id": "frame-020",
+    "frameNumber": 20,
+    "filename": "VISDRONE_SEC_A_0020_0000068_04169_d_0000014.jpg",
+    "url": "/mission-pack/drone_frame_20.jpg",
+    "status": "WAITING",
+    "timestamp": "2026-09-14T10:30:20Z",
+    "altitudeMeters": 62,
+    "compassHeading": 20,
+    "heading": 20,
+    "sector": "Sector A \u2014 Grid 5",
+    "gpsCoords": {
+      "lat": 34.0518,
+      "lng": -118.2437
+    },
+    "detections": [
+      {
+        "id": "det-frame-20-1",
+        "class": "human",
+        "confidence": 0.94,
+        "x": 0.4409,
+        "y": 0.3711,
+        "width": 0.0138,
+        "height": 0.0642,
+        "box": [
+          599.6,
+          283.9,
+          618.3,
+          333.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (599, 283). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-20-2",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.4995,
+        "y": 0.1068,
+        "width": 0.0083,
+        "height": 0.0364,
+        "box": [
+          679.3,
+          81.7,
+          690.5,
+          109.6
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (679, 81). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-20-3",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.9008,
+        "y": 0.1147,
+        "width": 0.0119,
+        "height": 0.0438,
+        "box": [
+          1225.0,
+          87.7,
+          1241.2,
+          121.2
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1225, 87). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-20-4",
+        "class": "human",
+        "confidence": 0.92,
+        "x": 0.7464,
+        "y": 0.048,
+        "width": 0.0076,
+        "height": 0.037,
+        "box": [
+          1015.1,
+          36.7,
+          1025.4,
+          65.0
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1015, 36). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-20-5",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.5672,
+        "y": 0.0849,
+        "width": 0.0081,
+        "height": 0.0355,
+        "box": [
+          771.4,
+          64.9,
+          782.4,
+          92.1
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (771, 64). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      },
+      {
+        "id": "det-frame-20-6",
+        "class": "human",
+        "confidence": 0.89,
+        "x": 0.8044,
+        "y": 0.4329,
+        "width": 0.0163,
+        "height": 0.0648,
+        "box": [
+          1094.0,
+          331.2,
+          1116.1,
+          380.8
+        ],
+        "priority": "CRITICAL",
+        "simulated": false,
+        "hazardNotes": "Thermal survivor candidate verified at (1093, 331). Ground triage assigned.",
+        "thermalSignature": "36.7\u00b0C Core Temp"
+      }
+    ],
+    "simulated": false
+  }
+]

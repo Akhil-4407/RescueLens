@@ -15,7 +15,7 @@ import {
   FrameStatus,
 } from '../types';
 import { generateDroneMissionPack } from '../data/mockDroneMissionPack';
-import { InferenceService } from '../services/inference/InferenceService';
+import { InferenceService, API_BASE_URL } from '../services/inference/InferenceService';
 import { MockInferenceService } from '../services/inference/MockInferenceService';
 import { TensorFlowLiteInferenceService } from '../services/inference/TensorFlowLiteInferenceService';
 
@@ -30,10 +30,14 @@ interface MissionContextType {
   inferenceAdapterName: string;
   missionMetadata: MissionMetadata;
   stats: MissionStatistics;
+  backendStatus: 'ONLINE' | 'OFFLINE' | 'CHECKING';
+  isBackendConnected: boolean;
+  confidenceThreshold: number;
+  setConfidenceThreshold: (val: number) => void;
   
   // Actions
   importImages: (files: FileList | File[]) => Promise<number>;
-  load100FrameMissionPack: () => void;
+  load100FrameMissionPack: (count?: number) => void;
   clearMission: () => void;
   selectImage: (id: string) => void;
   runInferenceOnImage: (id: string) => Promise<Detection[]>;
@@ -53,7 +57,7 @@ const DEFAULT_METADATA: MissionMetadata = {
   runtime: 'TENSORFLOW LITE',
   execution: 'ON-DEVICE',
   targetResolution: '416 × 416 × 3 RGB',
-  quantization: 'INT8',
+  quantization: 'FP16',
   cloudVision: 'DISABLED',
   openAiVision: 'DISABLED',
   isDemoMode: false,
@@ -70,7 +74,39 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [processingProgress, setProcessingProgress] = useState(0);
   const [currentProcessingIndex, setCurrentProcessingIndex] = useState(0);
   const [activeService, setActiveService] = useState<InferenceService>(tfliteService);
+  const [backendStatus, setBackendStatus] = useState<'ONLINE' | 'OFFLINE' | 'CHECKING'>('CHECKING');
+  const [confidenceThreshold, setConfidenceThreshold] = useState<number>(0.30);
   const stopRequestedRef = useRef(false);
+
+  // Poll backend health status
+  useEffect(() => {
+    let isMounted = true;
+    const checkHealth = async () => {
+      try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 2500);
+        const res = await fetch(`${API_BASE_URL}/health`, { signal: controller.signal });
+        clearTimeout(timer);
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) {
+            setBackendStatus(data.engine_ready !== false ? 'ONLINE' : 'OFFLINE');
+          }
+        } else {
+          if (isMounted) setBackendStatus('OFFLINE');
+        }
+      } catch {
+        if (isMounted) setBackendStatus('OFFLINE');
+      }
+    };
+
+    checkHealth();
+    const interval = setInterval(checkHealth, 8000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   // Selected image computed property
   const selectedImage = useMemo(() => {
@@ -185,9 +221,9 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
     [images.length, selectedImageId]
   );
 
-  // Load the 100-frame drone mission pack
-  const load100FrameMissionPack = useCallback(() => {
-    const pack = generateDroneMissionPack(100);
+  // Load the authentic VisDrone drone mission pack (20 pre-bundled frames, expandable to 100)
+  const load100FrameMissionPack = useCallback((count = 20) => {
+    const pack = generateDroneMissionPack(count);
     setImages(pack);
     setSelectedImageId(pack[0]?.id || null);
     setProcessingProgress(0);
@@ -223,7 +259,7 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const startTime = performance.now();
       try {
-        const detections = await activeService.runInference(targetFrame);
+        const detections = await activeService.runInference(targetFrame, undefined, confidenceThreshold);
         const duration = Math.round(performance.now() - startTime);
 
         const newStatus: FrameStatus =
@@ -254,7 +290,7 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
         return [];
       }
     },
-    [images, activeService]
+    [images, activeService, confidenceThreshold]
   );
 
   // Run batch on-device inference sequentially on all waiting frames in the queue
@@ -288,7 +324,7 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const startTime = performance.now();
       try {
-        const detections = await activeService.runInference(currentFrame);
+        const detections = await activeService.runInference(currentFrame, undefined, confidenceThreshold);
         const duration = Math.round(performance.now() - startTime);
         const status: FrameStatus =
           detections.length > 0 ? 'HUMAN_DETECTED' : 'NO_HUMAN';
@@ -316,7 +352,7 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     setIsProcessingQueue(false);
-  }, [images, isProcessingQueue, activeService]);
+  }, [images, isProcessingQueue, activeService, confidenceThreshold]);
 
   const stopProcessing = useCallback(() => {
     stopRequestedRef.current = true;
@@ -344,6 +380,10 @@ export const MissionProvider: React.FC<{ children: React.ReactNode }> = ({
         inferenceAdapterName: activeService.name,
         missionMetadata: DEFAULT_METADATA,
         stats,
+        backendStatus,
+        isBackendConnected: backendStatus === 'ONLINE',
+        confidenceThreshold,
+        setConfidenceThreshold,
         importImages,
         load100FrameMissionPack,
         clearMission,

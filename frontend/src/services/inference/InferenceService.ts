@@ -127,11 +127,16 @@ function normalizeDetectionItem(d: any, idx: number): ParsedDetection {
   };
 }
 
-export async function detectSingleImage(file: File): Promise<DetectionResult> {
+export async function detectSingleImage(file: File, confidenceThreshold?: number): Promise<DetectionResult> {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`${API_BASE_URL}/api/detect`, {
+  const url = new URL(`${API_BASE_URL}/api/detect`);
+  if (typeof confidenceThreshold === 'number') {
+    url.searchParams.set('confidence_threshold', String(confidenceThreshold));
+  }
+
+  const response = await fetch(url.toString(), {
     method: 'POST',
     body: formData,
   });
@@ -155,13 +160,18 @@ export async function detectSingleImage(file: File): Promise<DetectionResult> {
   };
 }
 
-export async function processBatchImages(files: File[]): Promise<DetectionResult> {
+export async function processBatchImages(files: File[], confidenceThreshold?: number): Promise<DetectionResult> {
   const formData = new FormData();
   files.slice(0, 100).forEach((file) => {
     formData.append('files', file);
   });
 
-  const response = await fetch(`${API_BASE_URL}/api/batch-process`, {
+  const url = new URL(`${API_BASE_URL}/api/batch-process`);
+  if (typeof confidenceThreshold === 'number') {
+    url.searchParams.set('confidence_threshold', String(confidenceThreshold));
+  }
+
+  const response = await fetch(url.toString(), {
     method: 'POST',
     body: formData,
   });
@@ -207,6 +217,7 @@ export interface InferenceService {
   loadModel(): Promise<boolean>;
   runInference(
     frame: DroneImage,
-    imageElement?: HTMLImageElement | HTMLCanvasElement
+    imageElement?: HTMLImageElement | HTMLCanvasElement,
+    confidenceThreshold?: number
   ): Promise<Detection[]>;
 }

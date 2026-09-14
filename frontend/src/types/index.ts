@@ -34,6 +34,8 @@ export interface DroneImage {
   status: FrameStatus;
   timestamp: string;
   altitudeMeters: number;
+  compassHeading?: number;
+  heading?: number;
   sector: string;
   gpsCoords: {
     lat: number;

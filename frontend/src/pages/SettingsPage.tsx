@@ -9,18 +9,27 @@ import {
   CheckCircle2,
   Terminal,
   AlertCircle,
+  Sliders,
+  RotateCcw,
 } from 'lucide-react';
 import { useMission } from '../state/MissionContext';
 
 export const SettingsPage: React.FC = () => {
-  const { activeService, switchInferenceAdapter } = useMission();
+  const {
+    activeService,
+    switchInferenceAdapter,
+    confidenceThreshold,
+    setConfidenceThreshold,
+    backendStatus,
+    isBackendConnected,
+  } = useMission();
   const info = activeService.getEngineInfo();
 
   const architectureSteps = [
     { name: 'USER DEVICE', desc: 'Host client browser / local edge hardware' },
     { name: 'REACT UI', desc: 'Workstation event dispatch and canvas coordinator' },
     { name: 'IMAGE CANVAS INGEST', desc: 'Raw RGBA pixel buffer extraction (416×416×3)' },
-    { name: 'YOLO TINY / TENSORFLOW LITE', desc: 'Client-side neural network operator (INT8)' },
+    { name: 'YOLO TINY / TENSORFLOW LITE', desc: 'Client-side neural network operator (FP16)' },
     { name: 'ON-DEVICE INFERENCE', desc: 'Zero cloud latency; zero remote API payload transfer' },
     { name: 'DETECTION COORDINATES', desc: 'Normalized bounding box anchors & confidence output' },
     { name: 'RESCUE PRIORITY', desc: 'Hazard triage heuristic (CRITICAL, HIGH, MEDIUM)' },
@@ -64,6 +73,78 @@ export const SettingsPage: React.FC = () => {
               )}
             </React.Fragment>
           ))}
+        </div>
+      </div>
+
+      {/* Interactive Operational Confidence Threshold Slider */}
+      <div className="p-6 rounded-xl border border-white/15 bg-black/70 backdrop-blur-md flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+          <div className="flex items-center gap-2">
+            <Sliders className="w-4 h-4 text-white" />
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-white font-sans">
+              Tactical Detection Confidence Threshold
+            </h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-mono text-[#9a9a9a]">CURRENT CUTOFF:</span>
+            <span className="px-2.5 py-0.5 rounded bg-white text-black font-mono font-bold text-xs">
+              {Math.round(confidenceThreshold * 100)}% ({confidenceThreshold.toFixed(2)})
+            </span>
+          </div>
+        </div>
+
+        <p className="text-xs text-[#9a9a9a] leading-relaxed font-sans">
+          Dynamically tune the computer vision detection cutoff. Lower thresholds (0.15 – 0.30) eliminate false negatives on distant aerial humans in rubble/water terrain. Higher thresholds (0.50 – 0.90) enforce strict high-confidence verification.
+        </p>
+
+        {/* Interactive Range Slider */}
+        <div className="flex flex-col gap-2 pt-2">
+          <div className="flex items-center gap-4">
+            <span className="text-xs font-mono text-[#9a9a9a] shrink-0">0.10 (High Recall)</span>
+            <input
+              id="confidence-threshold-slider"
+              type="range"
+              min="0.10"
+              max="0.90"
+              step="0.05"
+              value={confidenceThreshold}
+              onChange={(e) => setConfidenceThreshold(Number(e.target.value))}
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-white hover:accent-emerald-400 transition-all"
+            />
+            <span className="text-xs font-mono text-[#9a9a9a] shrink-0">0.90 (High Precision)</span>
+          </div>
+
+          {/* Tactical Indicator Status Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
+            <div className="flex items-center gap-2 text-[11px] font-mono">
+              <span className="text-[#9a9a9a]">STATUS:</span>
+              <span
+                className={`font-semibold ${
+                  confidenceThreshold <= 0.25
+                    ? 'text-amber-400'
+                    : confidenceThreshold <= 0.45
+                    ? 'text-emerald-400'
+                    : 'text-cyan-400'
+                }`}
+              >
+                {confidenceThreshold <= 0.25
+                  ? 'HIGH RECALL // DYNAMIC ELIMINATION OF FALSE NEGATIVES'
+                  : confidenceThreshold <= 0.45
+                  ? 'BALANCED TACTICAL SEARCH & RESCUE MODE (RECOMMENDED)'
+                  : 'HIGH PRECISION // STRICT SURVIVOR VERIFICATION'}
+              </span>
+            </div>
+
+            <button
+              id="btn-reset-confidence"
+              onClick={() => setConfidenceThreshold(0.30)}
+              className="text-xs font-mono text-[#9a9a9a] hover:text-white flex items-center gap-1 transition-colors underline"
+              title="Reset to recommended default (0.30)"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>Reset Default (0.30)</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -111,11 +192,11 @@ export const SettingsPage: React.FC = () => {
                 TensorFlowLiteInferenceService
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-[#d8d8d8] border border-white/20">
-                DROP-IN TARGET
+                {isBackendConnected ? 'CONNECTED — PRODUCTION' : 'DROP-IN TARGET'}
               </span>
             </div>
             <p className="text-xs text-[#9a9a9a] mt-2 leading-relaxed font-sans">
-              Production drop-in interface designed for Wasm / WebGL TensorFlow Lite engine running quantized INT8 YOLO Tiny model weights directly in browser memory.
+              Production drop-in interface designed for Wasm / WebGL TensorFlow Lite engine running quantized FP16 YOLO Tiny model weights directly in browser memory.
             </p>
           </div>
         </div>
@@ -144,7 +225,7 @@ export const SettingsPage: React.FC = () => {
 
             <div className="py-2.5 flex items-center justify-between">
               <span className="text-[#9a9a9a]">QUANTIZATION</span>
-              <span className="font-bold text-white">INT8</span>
+              <span className="font-bold text-white">FP16</span>
             </div>
 
             <div className="py-2.5 flex items-center justify-between">

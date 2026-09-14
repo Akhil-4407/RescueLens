@@ -27,6 +27,7 @@ export const MissionPage: React.FC = () => {
     load100FrameMissionPack,
     clearMission,
     isProcessingQueue,
+    isBackendConnected,
   } = useMission();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,9 +68,23 @@ export const MissionPage: React.FC = () => {
               <span className="text-[11px] font-mono tracking-widest text-[#9a9a9a] uppercase">
                 EMERGENCY RESPONSE DIRECTIVE
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/60 text-emerald-200 border border-emerald-500/40">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                ON-DEVICE TFLITE PRODUCTION
+              <span
+                className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono ${
+                  isBackendConnected
+                    ? 'bg-emerald-950/60 text-emerald-200 border border-emerald-500/40'
+                    : 'bg-amber-950/60 text-amber-200 border border-amber-500/40'
+                }`}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    isBackendConnected
+                      ? 'bg-emerald-400 animate-pulse'
+                      : 'bg-amber-400'
+                  }`}
+                />
+                {isBackendConnected
+                  ? 'ON-DEVICE TFLITE PRODUCTION'
+                  : 'ON-DEVICE (DEMO ADAPTER)'}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase font-sans">
@@ -140,7 +155,7 @@ export const MissionPage: React.FC = () => {
               MODEL TARGET
             </span>
             <span className="text-sm font-medium text-white mt-0.5 font-sans">
-              YOLO Tiny (INT8)
+              YOLO Tiny (FP16)
             </span>
           </div>
 
@@ -159,9 +174,21 @@ export const MissionPage: React.FC = () => {
             <span className="text-[10px] font-mono tracking-wider text-[#9a9a9a] uppercase">
               EXECUTION ADAPTER
             </span>
-            <span className="text-sm font-medium text-emerald-400 mt-0.5 flex items-center gap-1.5 font-sans">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              On-Device (Demo)
+            <span
+              className={`text-sm font-medium mt-0.5 flex items-center gap-1.5 font-sans ${
+                isBackendConnected ? 'text-emerald-400' : 'text-amber-400'
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  isBackendConnected
+                    ? 'bg-emerald-400 animate-pulse'
+                    : 'bg-amber-400'
+                }`}
+              />
+              {isBackendConnected
+                ? 'On-Device TFLite Production'
+                : 'On-Device (Demo)'}
             </span>
           </div>
         </div>
@@ -228,12 +255,12 @@ export const MissionPage: React.FC = () => {
         </div>
 
         {/* Primary Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full max-w-md justify-center">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-2xl justify-center">
           <button
             id="btn-import-drone-images"
             onClick={() => fileInputRef.current?.click()}
             disabled={images.length >= 100}
-            className="btn-metallic-primary w-full sm:w-auto px-6 py-3 text-sm metallic-shine"
+            className="btn-metallic-primary w-full sm:w-auto px-7 py-3.5 text-sm metallic-shine flex items-center justify-center gap-2.5 font-sans font-semibold tracking-wide"
           >
             <Upload className="w-4 h-4" />
             <span>IMPORT DRONE IMAGES</span>
@@ -241,11 +268,11 @@ export const MissionPage: React.FC = () => {
 
           <button
             id="btn-load-mission-pack"
-            onClick={load100FrameMissionPack}
-            className="btn-metallic-ghost w-full sm:w-auto px-6 py-3 text-sm metallic-shine"
+            onClick={() => load100FrameMissionPack(20)}
+            className="btn-metallic-ghost w-full sm:w-auto px-7 py-3.5 text-sm metallic-shine flex items-center justify-center gap-2.5 font-sans font-semibold tracking-wide border-white/30 hover:border-white/60 text-white"
           >
             <Layers className="w-4 h-4 text-white" />
-            <span>LOAD 100-FRAME DRONE MISSION PACK</span>
+            <span>LOAD MISSION PACK (VISDRONE)</span>
           </button>
         </div>
 

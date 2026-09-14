@@ -116,10 +116,10 @@ export const QueuePage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               id="btn-queue-load-pack"
-              onClick={load100FrameMissionPack}
+              onClick={() => load100FrameMissionPack(20)}
               className="btn-metallic-primary px-6 py-2.5 text-sm metallic-shine"
             >
-              LOAD 100-FRAME MISSION PACK
+              LOAD MISSION PACK (VISDRONE)
             </button>
             <button
               onClick={() => navigate('/mission')}
@@ -250,8 +250,7 @@ export const QueuePage: React.FC = () => {
             <div
               key={img.id}
               id={`frame-card-${img.frameNumber}`}
-              onClick={() => handleSelectFrame(img.id)}
-              onDoubleClick={() => handleSelectFrame(img.id, true)}
+              onClick={() => handleSelectFrame(img.id, true)}
               className={`group relative flex flex-col rounded-xl border overflow-hidden cursor-pointer transition-all duration-200 ${
                 isSelected
                   ? 'border-white bg-white/10 ring-2 ring-white/60 shadow-[0_0_25px_rgba(255,255,255,0.18)] scale-[1.02]'
@@ -294,7 +293,7 @@ export const QueuePage: React.FC = () => {
                     FRAME {padNumber}
                   </span>
                   <span className="text-[10px] font-mono text-[#9a9a9a]">
-                    {img.altitudeMeters}m
+                    {img.altitudeMeters}m • {img.compassHeading ?? img.heading ?? 0}°
                   </span>
                 </div>
 
@@ -305,11 +304,11 @@ export const QueuePage: React.FC = () => {
                       e.stopPropagation();
                       handleSelectFrame(img.id, true);
                     }}
-                    className="text-white hover:underline text-[11px] font-sans font-medium flex items-center gap-0.5"
+                    className="text-white hover:underline text-[11px] font-sans font-medium flex items-center gap-1 group-hover:text-amber-300 transition-colors"
                     title="Open in Detection View"
                   >
                     <span>Inspect</span>
-                    <span className="text-[10px]">→</span>
+                    <span className="text-[10px] font-bold">→</span>
                   </button>
                 </div>
               </div>
