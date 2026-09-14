@@ -3,8 +3,9 @@
 import { Detection, DroneImage } from '../../types';
 
 export const API_BASE_URL = (
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) ||
-  'http://127.0.0.1:8000'
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL !== undefined)
+    ? import.meta.env.VITE_API_BASE_URL
+    : (typeof import.meta !== 'undefined' && import.meta.env?.DEV ? 'http://127.0.0.1:8000' : '')
 ).replace(/\/+$/, '');
 
 export interface ParsedDetection {
@@ -131,7 +132,9 @@ export async function detectSingleImage(file: File, confidenceThreshold?: number
   const formData = new FormData();
   formData.append('file', file);
 
-  const url = new URL(`${API_BASE_URL}/api/detect`);
+  const endpoint = `${API_BASE_URL}/api/detect`;
+  const base = typeof window !== 'undefined' ? window.location.origin : 'http://127.0.0.1:8000';
+  const url = new URL(endpoint, base);
   if (typeof confidenceThreshold === 'number') {
     url.searchParams.set('confidence_threshold', String(confidenceThreshold));
   }
@@ -166,7 +169,9 @@ export async function processBatchImages(files: File[], confidenceThreshold?: nu
     formData.append('files', file);
   });
 
-  const url = new URL(`${API_BASE_URL}/api/batch-process`);
+  const endpoint = `${API_BASE_URL}/api/batch-process`;
+  const base = typeof window !== 'undefined' ? window.location.origin : 'http://127.0.0.1:8000';
+  const url = new URL(endpoint, base);
   if (typeof confidenceThreshold === 'number') {
     url.searchParams.set('confidence_threshold', String(confidenceThreshold));
   }

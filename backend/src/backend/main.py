@@ -260,11 +260,14 @@ class TFLiteYOLOEngine:
             return path
         candidates = [
             path,
+            os.path.abspath(path),
             os.path.join(os.getcwd(), path),
             os.path.join(os.path.dirname(__file__), "..", "..", path),
             os.path.join(os.path.dirname(__file__), path),
             os.path.join(os.path.dirname(__file__), "..", "..", "yolo_tiny_rescue.tflite"),
             os.path.join(os.getcwd(), "backend", "yolo_tiny_rescue.tflite"),
+            "/app/yolo_tiny_rescue.tflite",
+            "/app/backend/yolo_tiny_rescue.tflite",
         ]
         for candidate in candidates:
             if os.path.exists(candidate):
@@ -426,24 +429,35 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Enable CORS middleware for all frontend and local development origins
-CORS_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:3001",
-    "http://127.0.0.1:3001",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://0.0.0.0:3000",
-    "http://0.0.0.0:8000",
-]
+# Configurable CORS origins via environment variables for strict production deployments
+_cors_env = os.getenv("ALLOWED_ORIGINS") or os.getenv("CORS_ORIGINS")
+if _cors_env:
+    if _cors_env.strip() == "*":
+        CORS_ORIGINS = ["*"]
+        ALLOW_ORIGIN_REGEX = None
+    else:
+        CORS_ORIGINS = [orig.strip() for orig in _cors_env.split(",") if orig.strip()]
+        ALLOW_ORIGIN_REGEX = None
+else:
+    CORS_ORIGINS = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://0.0.0.0:3000",
+        "http://0.0.0.0:8000",
+    ]
+    is_prod = os.getenv("ENVIRONMENT", "").lower() in ("production", "prod")
+    ALLOW_ORIGIN_REGEX = None if is_prod else r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$"
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
-    allow_origin_regex=r"^https?://.*",
+    allow_origin_regex=ALLOW_ORIGIN_REGEX,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

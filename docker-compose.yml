@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rescuelens-backend
+    restart: unless-stopped
+    environment:
+      - MODEL_PATH=/app/yolo_tiny_rescue.tflite
+      - CONFIDENCE_THRESHOLD=0.30
+      - RAW_CONF_THRESHOLD=0.25
+      - ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:8000,http://127.0.0.1:8000
+    ports:
+      - "8000:8000"
+    networks:
+      - rescuelens-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: rescuelens-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - rescuelens-net
+
+networks:
+  rescuelens-net:
+    driver: bridge

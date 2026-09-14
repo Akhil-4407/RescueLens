@@ -1,5 +1,6 @@
 import { Detection, DroneImage, Priority } from '../../types';
 import {
+  API_BASE_URL,
   InferenceEngineInfo,
   InferenceService,
   detectSingleImage,
@@ -150,7 +151,7 @@ export class TensorFlowLiteInferenceService implements InferenceService {
   private isLoaded = true;
 
   constructor(modelWeightsUrl?: string) {
-    this.modelWeightsUrl = modelWeightsUrl || 'http://127.0.0.1:8000/yolo_tiny_rescue.tflite';
+    this.modelWeightsUrl = modelWeightsUrl || (API_BASE_URL ? `${API_BASE_URL}/yolo_tiny_rescue.tflite` : '/yolo_tiny_rescue.tflite');
   }
 
   getEngineInfo(): InferenceEngineInfo {
