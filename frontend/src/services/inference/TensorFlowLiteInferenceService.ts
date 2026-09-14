@@ -181,7 +181,8 @@ export class TensorFlowLiteInferenceService implements InferenceService {
 
   async runInference(
     frame: DroneImage,
-    imageElement?: HTMLImageElement | HTMLCanvasElement
+    imageElement?: HTMLImageElement | HTMLCanvasElement,
+    confidenceThreshold: number = 0.30
   ): Promise<Detection[]> {
     try {
       const { file, naturalWidth, naturalHeight } = await prepareImageFile(
@@ -189,7 +190,7 @@ export class TensorFlowLiteInferenceService implements InferenceService {
         imageElement
       );
 
-      const result = await detectSingleImage(file);
+      const result = await detectSingleImage(file, confidenceThreshold);
 
       // Access detections array defensively from the API response
       const rawDetections: any[] = Array.isArray(result)

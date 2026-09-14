@@ -297,20 +297,28 @@ class TFLiteYOLOEngine:
             logger.error(f"Failed to initialize TFLite interpreter with '{resolved_path}': {exc}")
             raise RuntimeError(f"TFLite interpreter initialization failed: {exc}") from exc
 
-    def infer(self, image: np.ndarray, metadata: Dict[str, Any]) -> List[Detection]:
+    def infer(
+        self,
+        image: np.ndarray,
+        metadata: Dict[str, Any],
+        conf_threshold: Optional[float] = None
+    ) -> List[Detection]:
         """
         Executes on-device tiled inference across the high-resolution image:
         1. Slices image into overlapping 416x416 tiles (20% stride).
         2. Runs TFLite interpreter across tiles.
         3. Maps tile coordinates back to absolute global coordinates.
         4. Applies dynamic threshold tuning (>0.25) and global NMS (IoU 0.40).
-        5. Returns high-confidence human detections (>0.80).
+        5. Returns high-confidence human detections (>0.30 default).
         """
         if self.interpreter is None or self.input_details is None or self.output_details is None:
             raise RuntimeError("TFLite interpreter is not initialized.")
 
         orig_w = metadata["orig_w"]
         orig_h = metadata["orig_h"]
+
+        final_thresh = float(conf_threshold) if conf_threshold is not None else FINAL_CONF_THRESHOLD
+        raw_thresh = min(RAW_CONF_THRESHOLD, final_thresh)
 
         # 1. Generate overlapping tiles
         tiles = generate_tiles(image, tile_size=TILE_SIZE, overlap=OVERLAP)
@@ -331,7 +339,7 @@ class TFLiteYOLOEngine:
                 tile_tensor = np.expand_dims(tile_rgb.astype(np.int8) - 128, axis=0)
             else:
                 tile_norm = tile_rgb.astype(np.float32) / 255.0
-                tile_tensor = np.expand_dims(tile_norm, axis=0)
+                tile_tensor = np.expand_dims(tile_norm.astype(target_dtype), axis=0)
 
             self.interpreter.set_tensor(input_index, tile_tensor)
             self.interpreter.invoke()
@@ -364,10 +372,10 @@ class TFLiteYOLOEngine:
                 w = w * TILE_SIZE
                 h = h * TILE_SIZE
 
-            # 3. Dynamic threshold tuning: filter raw candidates at 0.25
+            # 3. Dynamic threshold tuning: filter raw candidates at raw_thresh
             for i in range(len(confidences)):
                 c = float(confidences[i])
-                if c >= RAW_CONF_THRESHOLD:
+                if c >= raw_thresh:
                     lx1 = cx[i] - (w[i] / 2.0)
                     ly1 = cy[i] - (h[i] / 2.0)
                     lx2 = cx[i] + (w[i] / 2.0)
@@ -382,13 +390,13 @@ class TFLiteYOLOEngine:
                     aggregated_boxes.append([float(gx1), float(gy1), float(gx2), float(gy2)])
                     aggregated_confidences.append(c)
 
-        # 4. Global NMS and final 80% filtering
+        # 4. Global NMS and final filtering
         return apply_global_nms(
             boxes=aggregated_boxes,
             confidences=aggregated_confidences,
-            score_threshold=RAW_CONF_THRESHOLD,
+            score_threshold=raw_thresh,
             iou_threshold=GLOBAL_NMS_IOU_THRESHOLD,
-            final_conf_threshold=FINAL_CONF_THRESHOLD,
+            final_conf_threshold=final_thresh,
         )
 
 
@@ -462,7 +470,10 @@ async def health_check():
     summary="Detect objects in a single aerial image using high-resolution tiling",
     tags=["Detection"]
 )
-async def detect(file: UploadFile = File(...)):
+async def detect(
+    file: UploadFile = File(...),
+    confidence_threshold: Optional[float] = None
+):
     """
     Accepts one high-resolution drone image, splits it into overlapping 416x416 tiles (20% stride),
     executes on-device YOLO-tiny inference per tile, applies global NMS, and returns high-confidence human detections.
@@ -496,7 +507,7 @@ async def detect(file: UploadFile = File(...)):
         )
 
     try:
-        detections = engine.infer(image, metadata)
+        detections = engine.infer(image, metadata, conf_threshold=confidence_threshold)
     except Exception as exc:
         logger.error(f"Inference error: {exc}", exc_info=True)
         raise HTTPException(
@@ -524,7 +535,10 @@ async def detect(file: UploadFile = File(...)):
     summary="Batch detect objects in up to 100 aerial images with image slicing",
     tags=["Detection"]
 )
-async def batch_process(files: List[UploadFile] = File(...)):
+async def batch_process(
+    files: List[UploadFile] = File(...),
+    confidence_threshold: Optional[float] = None
+):
     """
     Accepts up to 100 drone images, processes each through the on-device tiled YOLO pipeline,
     and returns aggregated detections, total count, and total inference time.
@@ -558,7 +572,7 @@ async def batch_process(files: List[UploadFile] = File(...)):
 
         try:
             image, metadata = decode_image(image_bytes)
-            dets = engine.infer(image, metadata)
+            dets = engine.infer(image, metadata, conf_threshold=confidence_threshold)
             aggregated_detections.extend(dets)
         except Exception as exc:
             logger.warning(f"Error processing batch image {file.filename} (index {idx}): {exc}")

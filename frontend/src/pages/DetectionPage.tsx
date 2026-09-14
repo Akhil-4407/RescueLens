@@ -31,6 +31,15 @@ export const DetectionPage: React.FC = () => {
   const [selectedDetection, setSelectedDetection] = useState<Detection | null>(null);
   const [isInferring, setIsInferring] = useState(false);
 
+  // Synchronize highlighted detection seamlessly when frame changes
+  React.useEffect(() => {
+    if (selectedImage && selectedImage.detections && selectedImage.detections.length > 0) {
+      setSelectedDetection(selectedImage.detections[0]);
+    } else {
+      setSelectedDetection(null);
+    }
+  }, [selectedImage?.id]);
+
   // If no images exist, show refined minimal empty state per Section 5
   if (images.length === 0) {
     return (
@@ -62,10 +71,10 @@ export const DetectionPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               id="btn-detection-load-pack"
-              onClick={load100FrameMissionPack}
+              onClick={() => load100FrameMissionPack(20)}
               className="btn-metallic-primary px-6 py-2.5 text-sm metallic-shine"
             >
-              LOAD 100-FRAME MISSION PACK
+              LOAD MISSION PACK (VISDRONE)
             </button>
             <button
               onClick={() => navigate('/mission')}
@@ -118,7 +127,8 @@ export const DetectionPage: React.FC = () => {
     selectedImage &&
     (selectedImage.status === 'ANALYZED' ||
       selectedImage.status === 'HUMAN_DETECTED' ||
-      selectedImage.status === 'NO_HUMAN');
+      selectedImage.status === 'NO_HUMAN' ||
+      (selectedImage.detections && selectedImage.detections.length > 0));
 
   const detections = selectedImage?.detections || [];
   const humansDetectedCount = isAnalyzed ? detections.length : null;
@@ -202,24 +212,36 @@ export const DetectionPage: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-black/50 border border-white/10 text-xs text-[#9a9a9a]">
               <div className="flex items-center gap-1.5">
                 <span className="font-mono text-[11px] text-[#9a9a9a]">FILE:</span>
-                <span className="font-mono text-white text-[11px]">{selectedImage.filename}</span>
+                <span className="font-mono text-white text-[11px] truncate max-w-[150px] sm:max-w-none">{selectedImage.filename}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="font-mono text-[11px] text-[#9a9a9a]">ALTITUDE:</span>
                 <span className="font-mono text-white text-[11px]">{selectedImage.altitudeMeters}m</span>
               </div>
               <div className="flex items-center gap-1.5">
+                <span className="font-mono text-[11px] text-[#9a9a9a]">HEADING:</span>
+                <span className="font-mono text-white text-[11px]">{selectedImage.compassHeading ?? selectedImage.heading ?? 0}°</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono text-[11px] text-[#9a9a9a]">GPS:</span>
+                <span className="font-mono text-white text-[11px]">
+                  {selectedImage.gpsCoords.lat.toFixed(4)}°N, {selectedImage.gpsCoords.lng.toFixed(4)}°W
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
                 <span className="font-mono text-[11px] text-[#9a9a9a]">STATUS:</span>
                 <span
                   className={`font-mono text-[11px] ${
-                    selectedImage.status === 'HUMAN_DETECTED'
+                    selectedImage.status === 'HUMAN_DETECTED' || selectedImage.detections.length > 0
                       ? 'text-amber-400 font-semibold'
                       : selectedImage.status === 'NO_HUMAN'
                       ? 'text-emerald-400'
                       : 'text-white/70'
                   }`}
                 >
-                  {selectedImage.status.replace('_', ' ')}
+                  {selectedImage.detections.length > 0 && selectedImage.status === 'WAITING'
+                    ? 'READY / DETECTIONS'
+                    : selectedImage.status.replace('_', ' ')}
                 </span>
               </div>
               <div className="flex items-center gap-1.5">

@@ -46,7 +46,8 @@ export class MockInferenceService implements InferenceService {
    */
   async runInference(
     frame: DroneImage,
-    _imageElement?: HTMLImageElement | HTMLCanvasElement
+    _imageElement?: HTMLImageElement | HTMLCanvasElement,
+    confidenceThreshold: number = 0.30
   ): Promise<Detection[]> {
     // Ensure model is marked ready
     if (!this.modelLoaded) {
@@ -56,12 +57,14 @@ export class MockInferenceService implements InferenceService {
     // Simulate realistic on-device preprocessing and inference delay (180ms - 320ms)
     await new Promise((resolve) => setTimeout(resolve, 240));
 
-    // If frame already has curated scenario detections (from mission pack), return them with simulated flag
+    // If frame already has curated scenario detections (from mission pack), filter by confidenceThreshold
     if (frame.detections && frame.detections.length > 0) {
-      return frame.detections.map((d) => ({
-        ...d,
-        simulated: true,
-      }));
+      return frame.detections
+        .filter((d) => d.confidence >= confidenceThreshold)
+        .map((d) => ({
+          ...d,
+          simulated: true,
+        }));
     }
 
     // Deterministic simulation based on frame number or ID hash
