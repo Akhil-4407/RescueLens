@@ -152,7 +152,7 @@ Verifies backend runtime health, model allocation status, and configuration.
   "is_demo": false,
   "execution_adapter": "TFLite On-Device Production",
   "model_path": "/app/yolo_tiny_rescue.tflite",
-  "confidence_threshold": 0.30
+  "confidence_threshold": 0.45
 }
 ```
 
@@ -166,12 +166,12 @@ Accepts a single high-resolution drone image, generates overlapping $416\times 4
 - **Method:** `POST`
 - **Content-Type:** `multipart/form-data`
 - **Query Parameters:**
-  - `confidence_threshold` *(optional, float, default: `0.30`)*: Minimum confidence threshold.
+  - `confidence_threshold` *(optional, float, default: `0.45`)*: Minimum confidence threshold.
 
 **Example `curl` Request:**
 
 ```bash
-curl -X POST "http://localhost:8000/api/detect?confidence_threshold=0.30" \
+curl -X POST "http://localhost:8000/api/detect?confidence_threshold=0.45" \
   -H "Accept: application/json" \
   -F "file=@/path/to/drone_aerial_frame.jpg"
 ```
@@ -215,7 +215,7 @@ Accepts a batch of up to 100 drone aerial images, processing each through the on
 - **Method:** `POST`
 - **Content-Type:** `multipart/form-data`
 - **Query Parameters:**
-  - `confidence_threshold` *(optional, float, default: `0.30`)*: Minimum confidence cutoff.
+  - `confidence_threshold` *(optional, float, default: `0.45`)*: Minimum confidence cutoff.
 
 **Example `curl` Request:**
 
@@ -259,8 +259,8 @@ curl -X POST "http://localhost:8000/api/batch-process" \
 | Variable | Target | Default | Description |
 |:---------|:-------|:--------|:------------|
 | `MODEL_PATH` | Backend | `yolo_tiny_rescue.tflite` | Path to the compiled TFLite model weights. |
-| `CONFIDENCE_THRESHOLD` | Backend | `0.30` | Default detection confidence threshold for human targets. |
-| `RAW_CONF_THRESHOLD` | Backend | `0.25` | Raw candidate cutoff prior to global Non-Maximum Suppression. |
+| `CONFIDENCE_THRESHOLD` | Backend | `0.45` | Default detection confidence threshold for human targets. |
+| `RAW_CONF_THRESHOLD` | Backend | `0.45` | Raw candidate cutoff prior to global Non-Maximum Suppression. |
 | `ALLOWED_ORIGINS` | Backend | `http://localhost:3000,...` | Comma-separated list of allowed CORS origins or `*`. |
 | `ENVIRONMENT` | Backend | `production` | Environment mode (`development` / `production`). |
 | `VITE_API_BASE_URL` | Frontend | `""` (in Docker) / `http://127.0.0.1:8000` (dev) | Target backend origin. Empty string uses relative Nginx proxy routes. |

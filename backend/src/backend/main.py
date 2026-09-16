@@ -42,9 +42,11 @@ except (ImportError, AttributeError):
 MODEL_PATH = os.getenv("MODEL_PATH", "yolo_tiny_rescue.tflite")
 TILE_SIZE = 416
 OVERLAP = 0.20  # 20% overlap stride to ensure humans on tile boundaries are preserved
-RAW_CONF_THRESHOLD = float(os.getenv("RAW_CONF_THRESHOLD", "0.25"))  # Dynamic threshold tuning: lower initial cutoff for small targets
-FINAL_CONF_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.30"))  # Adaptable threshold for distant aerial targets (0.25 - 0.35)
-GLOBAL_NMS_IOU_THRESHOLD = 0.40  # Global NMS overlap threshold
+BASELINE_CONF_THRESHOLD = 0.45  # Hardcoded baseline confidence threshold (>= 45%) to filter out noise
+RAW_CONF_THRESHOLD = BASELINE_CONF_THRESHOLD  # Baseline candidate cutoff prior to NMS
+_env_conf = float(os.getenv("CONFIDENCE_THRESHOLD", "0.45"))
+FINAL_CONF_THRESHOLD = max(BASELINE_CONF_THRESHOLD, _env_conf)  # Strict baseline confidence cutoff
+GLOBAL_NMS_IOU_THRESHOLD = 0.40  # Global NMS IoU threshold to aggressively merge overlapping duplicates
 
 
 class Detection(BaseModel):
@@ -150,56 +152,74 @@ def generate_tiles(
 def apply_global_nms(
     boxes: List[List[float]],
     confidences: List[float],
-    score_threshold: float = RAW_CONF_THRESHOLD,
+    score_threshold: float = BASELINE_CONF_THRESHOLD,
     iou_threshold: float = GLOBAL_NMS_IOU_THRESHOLD,
-    final_conf_threshold: float = FINAL_CONF_THRESHOLD,
+    final_conf_threshold: Optional[float] = None,
 ) -> List[Detection]:
     """
-    Applies global Non-Maximum Suppression (NMS) across all aggregated candidate
-    boxes from all tiles to eliminate duplicates from overlapping strides, then filters
-    strictly for detections meeting the final >80% accuracy constraint.
+    Applies strict global Non-Maximum Suppression (NMS) across all aggregated candidate
+    boxes from all tiles to aggressively merge overlapping duplicate boxes on the same target.
+    Enforces a strict baseline confidence threshold (>= 0.45) prior to NMS.
     """
     if not boxes or not confidences:
         return []
 
-    cv_boxes = [
-        [
-            int(round(b[0])),
-            int(round(b[1])),
-            int(round(max(0.0, b[2] - b[0]))),
-            int(round(max(0.0, b[3] - b[1]))),
-        ]
-        for b in boxes
-    ]
-    scores = [float(c) for c in confidences]
+    effective_cutoff = max(
+        BASELINE_CONF_THRESHOLD,
+        final_conf_threshold if final_conf_threshold is not None else score_threshold
+    )
+
+    np_boxes = np.array(boxes, dtype=np.float32)
+    np_scores = np.array(confidences, dtype=np.float32)
+
+    # Filter out weak predictions (< 0.45) prior to the NMS pass
+    valid_mask = np_scores >= effective_cutoff
+    if not np.any(valid_mask):
+        return []
+
+    np_boxes = np_boxes[valid_mask]
+    np_scores = np_scores[valid_mask]
 
     keep_indices: List[int] = []
     try:
+        # Use exact float coordinates [x, y, w, h] without integer rounding to prevent IoU distortion
+        cv_boxes = [
+            [
+                float(b[0]),
+                float(b[1]),
+                float(max(0.0, b[2] - b[0])),
+                float(max(0.0, b[3] - b[1])),
+            ]
+            for b in np_boxes
+        ]
+        scores_list = [float(s) for s in np_scores]
         nms_result = cv2.dnn.NMSBoxes(
             bboxes=cv_boxes,
-            scores=scores,
-            score_threshold=score_threshold,
+            scores=scores_list,
+            score_threshold=effective_cutoff,
             nms_threshold=iou_threshold,
         )
         if len(nms_result) > 0:
             if isinstance(nms_result, np.ndarray):
-                keep_indices = nms_result.flatten().tolist()
+                keep_indices = [int(x) for x in nms_result.flatten()]
             else:
                 keep_indices = [
-                    idx[0] if isinstance(idx, (list, tuple, np.ndarray)) else idx
+                    int(idx[0]) if isinstance(idx, (list, tuple, np.ndarray)) else int(idx)
                     for idx in nms_result
                 ]
-    except Exception as e:
-        logger.warning(f"cv2.dnn.NMSBoxes fallback triggered: {e}")
-        # Pure numpy NMS fallback
-        np_boxes = np.array(boxes, dtype=np.float32)
-        np_scores = np.array(confidences, dtype=np.float32)
+    except Exception as exc:
+        logger.warning(f"cv2.dnn.NMSBoxes fallback triggered: {exc}")
+        keep_indices = []
+
+    # Pure numpy NMS fallback if OpenCV fails or returns empty unexpectedly
+    if not keep_indices and len(np_boxes) > 0:
         x1 = np_boxes[:, 0]
         y1 = np_boxes[:, 1]
         x2 = np_boxes[:, 2]
         y2 = np_boxes[:, 3]
         areas = np.maximum(0.0, x2 - x1) * np.maximum(0.0, y2 - y1)
         order = np_scores.argsort()[::-1]
+
         while order.size > 0:
             i = order[0]
             keep_indices.append(int(i))
@@ -209,24 +229,27 @@ def apply_global_nms(
             yy1 = np.maximum(y1[i], y1[order[1:]])
             xx2 = np.minimum(x2[i], x2[order[1:]])
             yy2 = np.minimum(y2[i], y2[order[1:]])
+
             inter_w = np.maximum(0.0, xx2 - xx1)
             inter_h = np.maximum(0.0, yy2 - yy1)
             inter = inter_w * inter_h
+
             union = areas[i] + areas[order[1:]] - inter
             iou = inter / np.maximum(union, 1e-6)
+
             inds = np.where(iou <= iou_threshold)[0]
             order = order[inds + 1]
 
-    # Filter strictly for final >= 80% confidence
+    # Build clean Detection objects strictly for post-NMS deduplicated list
     final_detections: List[Detection] = []
     for idx in keep_indices:
-        conf = float(confidences[idx])
-        if conf >= final_conf_threshold:
+        conf = float(np_scores[idx])
+        if conf >= effective_cutoff:
             b = [
-                round(float(boxes[idx][0]), 2),
-                round(float(boxes[idx][1]), 2),
-                round(float(boxes[idx][2]), 2),
-                round(float(boxes[idx][3]), 2),
+                round(float(np_boxes[idx][0]), 2),
+                round(float(np_boxes[idx][1]), 2),
+                round(float(np_boxes[idx][2]), 2),
+                round(float(np_boxes[idx][3]), 2),
             ]
             final_detections.append(
                 Detection(
@@ -238,6 +261,8 @@ def apply_global_nms(
                 )
             )
 
+    # Sort final detections in descending confidence order
+    final_detections.sort(key=lambda d: d.confidence, reverse=True)
     return final_detections
 
 
@@ -310,9 +335,10 @@ class TFLiteYOLOEngine:
         Executes on-device tiled inference across the high-resolution image:
         1. Slices image into overlapping 416x416 tiles (20% stride).
         2. Runs TFLite interpreter across tiles.
-        3. Maps tile coordinates back to absolute global coordinates.
-        4. Applies dynamic threshold tuning (>0.25) and global NMS (IoU 0.40).
-        5. Returns high-confidence human detections (>0.30 default).
+        3. Filters out weak predictions (< 0.45) prior to coordinate mapping and NMS.
+        4. Translates local tile bounding box coordinates to absolute global coordinates before deduplication.
+        5. Collects all mapped bounding boxes from all tiles into a single array and applies strict global NMS (IoU 0.40).
+        6. Returns clean deduplicated list of detections.
         """
         if self.interpreter is None or self.input_details is None or self.output_details is None:
             raise RuntimeError("TFLite interpreter is not initialized.")
@@ -320,8 +346,12 @@ class TFLiteYOLOEngine:
         orig_w = metadata["orig_w"]
         orig_h = metadata["orig_h"]
 
-        final_thresh = float(conf_threshold) if conf_threshold is not None else FINAL_CONF_THRESHOLD
-        raw_thresh = min(RAW_CONF_THRESHOLD, final_thresh)
+        # Hardcode a stricter baseline confidence threshold of at least 0.45 (45%)
+        # Discard weak predictions prior to the NMS pass
+        if conf_threshold is not None:
+            active_conf_thresh = max(BASELINE_CONF_THRESHOLD, float(conf_threshold))
+        else:
+            active_conf_thresh = max(BASELINE_CONF_THRESHOLD, FINAL_CONF_THRESHOLD)
 
         # 1. Generate overlapping tiles
         tiles = generate_tiles(image, tile_size=TILE_SIZE, overlap=OVERLAP)
@@ -375,31 +405,43 @@ class TFLiteYOLOEngine:
                 w = w * TILE_SIZE
                 h = h * TILE_SIZE
 
-            # 3. Dynamic threshold tuning: filter raw candidates at raw_thresh
-            for i in range(len(confidences)):
-                c = float(confidences[i])
-                if c >= raw_thresh:
-                    lx1 = cx[i] - (w[i] / 2.0)
-                    ly1 = cy[i] - (h[i] / 2.0)
-                    lx2 = cx[i] + (w[i] / 2.0)
-                    ly2 = cy[i] + (h[i] / 2.0)
+            # 3. Filter weak predictions prior to NMS (strict baseline >= 0.45)
+            valid_mask = confidences >= active_conf_thresh
+            if not np.any(valid_mask):
+                continue
 
-                    # Map to global image coordinates
-                    gx1 = np.clip(x_off + lx1, 0, orig_w)
-                    gy1 = np.clip(y_off + ly1, 0, orig_h)
-                    gx2 = np.clip(x_off + lx2, 0, orig_w)
-                    gy2 = np.clip(y_off + ly2, 0, orig_h)
+            cx = cx[valid_mask]
+            cy = cy[valid_mask]
+            w = w[valid_mask]
+            h = h[valid_mask]
+            conf = confidences[valid_mask]
 
-                    aggregated_boxes.append([float(gx1), float(gy1), float(gx2), float(gy2)])
-                    aggregated_confidences.append(c)
+            # 4. Absolute Coordinate Mapping: translate local tile coords to global image coordinates
+            # This translation happens before deduplication
+            lx1 = cx - (w / 2.0)
+            ly1 = cy - (h / 2.0)
+            lx2 = cx + (w / 2.0)
+            ly2 = cy + (h / 2.0)
 
-        # 4. Global NMS and final filtering
+            gx1 = np.clip(x_off + lx1, 0, orig_w)
+            gy1 = np.clip(y_off + ly1, 0, orig_h)
+            gx2 = np.clip(x_off + lx2, 0, orig_w)
+            gy2 = np.clip(y_off + ly2, 0, orig_h)
+
+            for i in range(len(conf)):
+                # Ensure box has positive dimensions and center is within original image frame
+                if gx2[i] > gx1[i] and gy2[i] > gy1[i]:
+                    if (x_off + cx[i]) < orig_w and (y_off + cy[i]) < orig_h:
+                        aggregated_boxes.append([float(gx1[i]), float(gy1[i]), float(gx2[i]), float(gy2[i])])
+                        aggregated_confidences.append(float(conf[i]))
+
+        # 5. Strict Global NMS applied across all aggregated mapped boxes from all tiles
         return apply_global_nms(
             boxes=aggregated_boxes,
             confidences=aggregated_confidences,
-            score_threshold=raw_thresh,
+            score_threshold=active_conf_thresh,
             iou_threshold=GLOBAL_NMS_IOU_THRESHOLD,
-            final_conf_threshold=final_thresh,
+            final_conf_threshold=active_conf_thresh,
         )
 
 
