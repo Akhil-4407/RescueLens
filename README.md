@@ -5,7 +5,7 @@
 [![Vite](https://img.shields.io/badge/Vite_6-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![FastAPI](https://img.shields.io/badge/FastAPI_0.128-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python_3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![TensorFlow Lite](https://img.shields.io/badge/TensorFlow_Lite-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/lite)
 [![YOLO](https://img.shields.io/badge/YOLO-Tiny-00FFFF?style=for-the-badge&logo=yolo&logoColor=black)](https://github.com/ultralytics)
 [![Docker](https://img.shields.io/badge/Docker_Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -103,6 +103,11 @@ docker compose down
 
 If you wish to develop without Docker containers:
 
+### Prerequisites
+- [Python 3.13+](https://www.python.org/)
+- [uv](https://docs.astral.sh/uv/) (recommended) or pip
+- [Node.js](https://nodejs.org/) (v20+)
+
 ### Backend Setup
 
 ```bash
@@ -113,7 +118,7 @@ uv sync
 uv run uvicorn backend.main:app --app-dir src --host 0.0.0.0 --port 8000 --reload
 
 # Option B: Standard Python venv
-python3.11 -m venv .venv
+python3.13 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn backend.main:app --app-dir src --host 0.0.0.0 --port 8000 --reload
@@ -271,9 +276,11 @@ curl -X POST "http://localhost:8000/api/batch-process" \
 
 ```
 RescueLens/
+├── .python-version                 # Python 3.13 runtime pinning
 ├── docker-compose.yml              # Multi-container orchestration (Frontend + Backend)
 ├── backend/
-│   ├── Dockerfile                  # Python 3.11-slim production container
+│   ├── .python-version             # Python 3.13 runtime pinning
+│   ├── Dockerfile                  # Python 3.13-slim production container
 │   ├── requirements.txt            # Python dependencies (FastAPI, TFLite, OpenCV)
 │   ├── .dockerignore               # Docker build exclusions
 │   ├── yolo_tiny_rescue.tflite     # Quantized on-device YOLO Tiny model
